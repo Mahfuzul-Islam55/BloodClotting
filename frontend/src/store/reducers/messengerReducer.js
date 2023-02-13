@@ -1,70 +1,116 @@
-import { FRIENDS_GET_SUCCESS, MESSAGE_GET_SUCCESS, MESSAGE_SEND_SUCCESS,IMAGE_MESSAGE_SEND, SOCKET_MESSAGE, MESSAGE_SEND_SUCCESS_CLEAR, UPDATE_FRIEND_MESSAGE, LOGOUT_SUCCESS, NEW_USER_ADD, NEW_USER_ADD_CLEAR } from "../types/messengerType";
-
-const messengerState={
-    friends:[],
-    message:[],
-    messageSendSuccess:false,
-    new_user_add:''
+import { FRIENDS_GET_SUCCESS,MESSAGE_GET_SUCCESS,MESSAGE_SEND_SUCCESS,UPDATE_FRIEND_MESSAGE,MESSAGE_SEND_SUCCESS_CLEAR,SEEN_MESSAGE,DELIVARED_MESSAGE,UPDATE,MESSAGE_GET_SUCCESS_CLEAR} from "../types/messengerType";
+const messengerState = {
+    friends : [],
+    message : [],
+    messageSendSuccess : false,
+    message_get_success : false,
+    themeMood : '',
+    new_user_add : ''
 }
-export  const messengerReducer=(state=messengerState,action)=>{
-    const {type,payload}=action;
 
-    if(type===FRIENDS_GET_SUCCESS){
-         return {
-             ...state,
-             friends:payload.friends
-         }
-    }
-    if(type===MESSAGE_GET_SUCCESS){
-        return{
+export const messengerReducer = (state=messengerState , action) =>{
+    const {type,payload} = action;
+    if(type === 'THEME_GET_SUCCESS' || type === 'THEME_SET_SUCCESS'){
+        return {
             ...state,
-            message:payload.message
+            themeMood : payload.theme
         }
     }
-    if(type===MESSAGE_SEND_SUCCESS || type===IMAGE_MESSAGE_SEND){
-        return{
+    if(type === FRIENDS_GET_SUCCESS){
+        return {
             ...state,
-            message:[...state.message,payload.message],
-            messageSendSuccess:true
+            friends : payload.friends
         }
     }
-    if(type===SOCKET_MESSAGE){
-        return{
+    if(type === MESSAGE_GET_SUCCESS){
+        return {
             ...state,
-            message:[...state.message,payload.message]
+            message_get_success : true,
+            message : payload.message
         }
     }
-    if(type===MESSAGE_SEND_SUCCESS_CLEAR){
-        return{
+    if(type === MESSAGE_SEND_SUCCESS){
+        return {
             ...state,
-            messageSendSuccess:false
+            messageSendSuccess : true,
+            message : [...state.message,payload.message]
         }
     }
-    if(type===UPDATE_FRIEND_MESSAGE){
-        const index=state.friends.findIndex(f=>f.friendInfo._id===payload.messageInfo.receiverId || f.friendInfo._id===payload.messageInfo.senderId);
-        state.friends[index].messageInfo=payload.messageInfo;
+    if(type === 'SOCKET_MESSAGE'){
+        return {
+            ...state,
+            message : [...state.message,payload.message]
+        }
+    }
+    if(type === UPDATE_FRIEND_MESSAGE){
+        const index = state.friends.findIndex(f=>f.fndInfo._id === payload.msgInfo.reseverId || f.fndInfo._id === payload.msgInfo.senderId );
+        state.friends[index].msgInfo = payload.msgInfo;
+        state.friends[index].msgInfo.status = payload.status;
         return state;
-    }
-    if(type===LOGOUT_SUCCESS){
-        return{
-            ...state,
-            friends:[],
-            message:[],
-            messageSendSuccess:false
-        }
-    }
-    if(type===NEW_USER_ADD){
-        return{
-            ...state,
-            new_user_add:payload.new_user_add
-        }
-    }
-    if(type===NEW_USER_ADD_CLEAR){
-        return{
-            ...state,
-            new_user_add:''
-        }
-    }
-    return state;
 
+    }
+    if(type === MESSAGE_SEND_SUCCESS_CLEAR){
+        return {
+            ...state,
+            messageSendSuccess : false
+        }
+    }
+    if(type === SEEN_MESSAGE){
+        const index = state.friends.findIndex(f=>f.fndInfo._id === payload.msgInfo.reseverId || f.fndInfo._id === payload.msgInfo.senderId );
+        state.friends[index].msgInfo.status = 'seen';
+        return {
+            ...state
+        };
+    }
+    if(type === DELIVARED_MESSAGE){
+        const index = state.friends.findIndex(f=>f.fndInfo._id === payload.msgInfo.reseverId || f.fndInfo._id === payload.msgInfo.senderId );
+        state.friends[index].msgInfo.status = 'delivared';
+        return {
+            ...state
+        };
+    }
+    if(type === UPDATE){
+        const index = state.friends.findIndex(f=>f.fndInfo._id === payload.id);
+        if(state.friends[index].msgInfo){
+            state.friends[index].msgInfo.status = 'seen';
+        }
+        return {
+            ...state
+        }
+    }
+    if(type === MESSAGE_GET_SUCCESS_CLEAR){
+        return {
+            ...state,
+            message_get_success : false
+        }
+    }
+    if(type === 'SEEN_ALL'){
+        const index = state.friends.findIndex(f=>f.fndInfo._id === payload.reseverId);
+        state.friends[index].msgInfo.status = 'seen';
+        return {
+            ...state
+        }
+    }
+    if(type === 'LOGOUT_SUCCESS'){
+        return{
+            ...state,
+            friends : [],
+            message : [],
+            messageSendSuccess : false,
+            message_get_success : false,
+        }
+    }
+    if(type === 'NEW_USER_ADD'){
+        return{
+            ...state,
+            new_user_add : payload.new_user_add
+        }
+    }
+    if(type === 'NEW_USER_ADD_CLEAR'){
+        return {
+            ...state,
+            new_user_add : ''
+        }
+    }
+    return state; 
 }

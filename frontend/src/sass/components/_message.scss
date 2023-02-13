@@ -3,7 +3,23 @@
     padding: 10px;
     overflow-y: auto;
     &::-webkit-scrollbar{
-        overflow: hidden;
+        overflow:hidden;
+    }
+    .friend_connect{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 10px;
+        color: var(--text-color);
+        img{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        h3{
+            margin-top: 10px;
+        }
     }
     .my-message{
         float: right;
@@ -11,12 +27,23 @@
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
-            width: 600px;
+            width: 370px;
+            flex-direction: column;
+            img.img,span{
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                margin: 3px 0px 0px 0px;
+                color: var(--text-color);
+            }
+            .my{
+                background-color: var(--my-message-bg);
+                color: var(--text-white);
+            }
             .message-text{
                 text-align: end;
-                padding:10px;
+                padding: 10px;
                 border-radius: 10px;
-                font-size: 20px;
                 img{
                     width: 220px;
                     height: 270px;
@@ -24,26 +51,30 @@
                     border-radius: 5px;
                     overflow: hidden;
                     object-fit: cover;
+
                 }
             }
         }
         .time{
             text-align: end;
-            padding: 5px 0;
+            padding: 5px 0px;
             color: yellowgreen;
         }
     }
     .fd-message{
-        float: left;
+        float:  left;
         .fd-text{
             display: flex;
             align-items: flex-end;
             justify-content: flex-start;
-            width: 600px;
+            width: 370px;
+            .fd{
+                background-color: var(--fd-message-bg);
+                color: var(--text-color);
+            }
             .message-text{
                 text-align: start;
                 border-radius: 10px;
-                font-size: 20px;
                 img{
                     width: 220px;
                     height: 270px;
@@ -51,6 +82,7 @@
                     border-radius: 5px;
                     overflow: hidden;
                     object-fit: cover;
+
                 }
             }
         }
@@ -66,7 +98,7 @@
         margin-right: 10px;
     }
     .message-text{
-        padding:8px;
+        padding: 8px;
         color: #fff;
         background-color: #28324ed9;
         font-size: 14px;
@@ -74,11 +106,9 @@
     }
     .time{
         padding: 5px 0px;
-        color:yellowgreen;
+        color: yellowgreen;
     }
-
 }
-
 .typing-message{
     padding: 0px 10px;
 }

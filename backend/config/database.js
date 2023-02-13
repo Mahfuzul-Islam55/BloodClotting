@@ -1,14 +1,15 @@
-const mongoose=require('mongoose');
+const mongoose = require('mongoose');
 
-const databaseConnect=()=>{
+
+const databaseConnect = () =>{
     mongoose.connect(process.env.DATABASE_URL,{
-        useNewUrlParser:true,
-        useUnifiedTopology:true,
-        //useCreateIndex:true
+        useNewUrlParser : true,
+        useUnifiedTopology : true,
+        useCreateIndex : true
     }).then(()=>{
-        console.log("MongoDB Database successfully connected.");
+        console.log('Mongodb database connect....')
     }).catch(error=>{
-        console.log(error);
-    });
+        console.log(error)
+    })
 }
-module.exports=databaseConnect;
+module.exports = databaseConnect;

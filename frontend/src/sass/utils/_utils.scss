@@ -1,16 +1,14 @@
 .card{
-    width:375px;
+    width: 375px;
     padding: 15px 20px;
     background-color: #141b2bd4;
     box-shadow: 0px 8px 25px #f5f0f0;
 }
-
 .form-group{
     margin: 10px 0px;
     display: flex;
     flex-direction: column;
 }
-
 .form-control{
     padding: 12px;
     border: none;
@@ -18,7 +16,7 @@
     background-color: #0a0e1585;
     &::placeholder{
         color: #fff;
-        font-weight: 400px;
+        font-weight: 400;
     }
 }
 label{
@@ -26,7 +24,6 @@ label{
     color: #fff;
     font-weight: 500;
 }
-
 .btn{
     outline: none;
     color: #fff;
