@@ -1,18 +1,25 @@
-# Real time chat application like facebook messenger
+# Real time patient-doctor AI diagnosis  and monitoring application
 
 # Application feature
 
   - Real time Text Messaging
+  - Real time calling with doctor patient
   - Real time image Messaging
   - Real time emoji Messaging
-  - Real time message seen, unseen system
-  - Real time message received and sending sound
-  - Real time received message notification system
-  - User search system
-  - User login and register system
+  - User(doctor/patient) search system
+  - User(doctor/patient) login and register system
   - Application dark and light mode system
+
+  ## AI feature
+    
+  - Disease classification
+  - Analysis Patient improvement point
+  - Analysis Doctor improvement point
+  - online monitoring
+  - Disease improvement scaleing
+  - Realtime chatbot for health guidence
+  - Online prescription record pdf
   
-  ![CHOOSE!](messenger.jpg)
   
 # Following tools are used to develop the application
     
@@ -30,5 +37,15 @@
   - Frameworks : Express Js
   - Databases : MongoDB
   - Socket.io
+
+  ## AI tools
+    
+  - CNN
+  - Gradient boost
+  - openai gpt model
+  - online monitoring via iot device
+  
+
+
    
-### How to make this application  [visit](https://www.youtube.com/playlist?list=PLTyDDs5BP9JTf_f6zCjSS96CUA9vxXfIY)
+### Teaser of this application  [visit]()
