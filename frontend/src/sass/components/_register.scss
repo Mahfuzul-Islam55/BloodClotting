@@ -9,13 +9,13 @@
         .card-header{
             h3{
                 text-align: center;
-                color:#fff;
+                color: #fff;
             }
         }
         .card-body{
             .form-group{
-                input{
-                    color: rgb(243, 240, 240);
+                .form-control{
+                    color: #fff;
                 }
                 &:last-child{
                     margin-bottom: 0px;
@@ -29,10 +29,10 @@
                 .file-image{
                     display: flex;
                     .image{
-                        width:50px;
+                        width: 50px;
                         height: 50px;
                         border-radius: 50%;
-                        border:1px solid rgb(199,195, 195);
+                        border : 1px solid rgb(199, 195, 195);
                         overflow: hidden;
                         img{
                             width: 100%;
@@ -63,9 +63,4 @@
             }
         }
     }
-}
-
-#register,#login{
-    color: white;
-    font-size: 15px;
 }

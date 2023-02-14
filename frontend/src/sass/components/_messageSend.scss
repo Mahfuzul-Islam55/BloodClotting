@@ -9,23 +9,25 @@
         padding: 8px;
         font-size: 20px;
         cursor: pointer;
-        color: white;
+        color: var(--icon-color);
         label{
             display: flex;
             align-items: center;
             margin-bottom: 0px;
             cursor: pointer;
+            color: var(--icon-color);
         }
         #pic{
             display: none;
         }
-        .add-attachment,.add-image,.add-gift{
+        .add-image,.add-attachment,.add-gift{
             position: fixed;
             padding: 4px;
             background: #212d44;
             font-size: 14px;
             bottom: 44px;
             display: none;
+            color: var(--text-white);
         }
     }
     .hover-attachment{
@@ -36,7 +38,6 @@
             }
         }
     }
-
     .hover-image{
         position: relative;
         &:hover{
@@ -45,7 +46,6 @@
             }
         }
     }
-
     .hover-gift{
         position: relative;
         &:hover{
@@ -57,33 +57,34 @@
     .message-type{
         display: flex;
         width: 70%;
-        height: 50px;
-        background-color: #15162559;
+        height: 40px;
+        background-color: var(--search-bg);
         border-radius: 50px;
-        border:none;
+        border: none;
         align-items: center;
         .form-control{
             width: 100%;
             border-bottom-left-radius: 50px;
             border-top-left-radius: 50px;
             background-color: transparent;
-            border:none;
-            color:white;
-            font-size: 17px;
+            border: none;
+            &::placeholder{
+                color: var(--text-color);
+            }
         }
         label{
             font-size: 20px;
-            margin-right:5px;
+            margin-right: 5px;
             cursor: pointer;
         }
     }
     .emoji-section{
-        width:200px;
+        width: 200px;
         background: #0e131d;
         position: absolute;
         right: 60px;
         padding: 6px;
-        bottom:50px;
+        bottom: 50px;
         border-radius: 8px;
         border-bottom-right-radius: 0px;
         display: none;
@@ -99,7 +100,7 @@
     #emoji{
         display: none;
     }
-    #emoji:checked ~.emoji-section{
+    #emoji:checked ~ .emoji-section{
         display: block;
     }
 }

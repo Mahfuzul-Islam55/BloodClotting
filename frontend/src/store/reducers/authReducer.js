@@ -1,75 +1,73 @@
-import { ERROR_CLEAR, REGISTER_FAIL, REGISTER_SUCCESS, SUCCESS_MESSAGE_CLEAR, USER_LOGIN_FAIL, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS } from "../types/authTypes";
-import deCodeToken from 'jwt-decode';
-const authState={
-    loading:true,
-    authenticate:false,
-    error:'',
-    successMessage:'',
-    myInfo:''
+import { REGISTER_FAIL,REGISTER_SUCCESS,SUCCESS_MESSAGE_CLEAR,ERROR_CLEAR,USER_LOGIN_SUCCESS,USER_LOGIN_FAIL } from "../types/authType";
+import deCodeToken from 'jwt-decode'
+const authState = {
+    loading : true,
+    authenticate : false,
+    error : '',
+    successMessage : '',
+    myInfo : ''
 }
 
-const tokenDecode=(token)=>{
-    const tokenDecoded=deCodeToken(token);
-    const expTime=new Date(tokenDecoded.exp*1000);
+
+const tokenDecode = (token) =>{
+    const tokenDecoded = deCodeToken(token);
+    const expTime = new Date(tokenDecoded.exp*1000);
     if(new Date()>expTime){
         return null;
     }
     return tokenDecoded;
-};
+}
 
-const getToken=localStorage.getItem('authToken');
+const getToken = localStorage.getItem('authToken');
 if(getToken){
-    const getInfo=tokenDecode(getToken);
+    const getInfo = tokenDecode(getToken);
     if(getInfo){
-        authState.myInfo=getInfo;
-        authState.authenticate=true;
-        authState.loading=false;
+        authState.myInfo = getInfo;
+        authState.authenticate = true;
+        authState.loading = false
     }
 }
-export const authReducer=(state=authState,action)=>{
-    const {payload,type}=action;
+export const authReducer = (state= authState,action) =>{
+    const {payload,type} = action;
 
-    if(type===REGISTER_FAIL || type===USER_LOGIN_FAIL){
-        return{
+    if(type === REGISTER_FAIL || type === USER_LOGIN_FAIL){
+        return {
             ...state,
-            error:payload.error,
-            authenticate:false,
-            myInfo:'',
-            loading:true
+            error : payload.error,
+            authenticate : false,
+            myInfo : '',
+            loading : true
         }
     }
-    if(type===REGISTER_SUCCESS || type===USER_LOGIN_SUCCESS){
-
-        const myInfo=tokenDecode(payload.token);
-
+    if(type === REGISTER_SUCCESS || type === USER_LOGIN_SUCCESS){
+        const myInfo = tokenDecode(payload.token);
         return{
             ...state,
-            myInfo:myInfo,
-            successMessage:payload.successMessage,
-            error:'',
-            authenticate:true,
-            loading:false
-            
+            myInfo : myInfo,
+            successMessage : payload.successMessage,
+            error : '',
+            authenticate : true,
+            loading : false
         }
     }
-    if(type===SUCCESS_MESSAGE_CLEAR){
+    if(type === SUCCESS_MESSAGE_CLEAR){
         return{
             ...state,
-            successMessage:''
+            successMessage : ''
         }
     }
-    if(type===ERROR_CLEAR){
+    if(type === ERROR_CLEAR){
         return{
             ...state,
-            error:''
+            error : ''
         }
     }
-    if(type===USER_LOGOUT_SUCCESS){
-        return{
+    if(type === 'LOGOUT_SUCCESS'){
+        return {
             ...state,
-            authenticate:false,
-            myInfo:'',
-            successMessage:"Successfully Logout"
+            authenticate: false,
+            myInfo : '',
+            successMessage : 'Logout successfull'
         }
     }
     return state;
