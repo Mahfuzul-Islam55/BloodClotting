@@ -1,5 +1,7 @@
-import React from 'react'
+import React , { Fragment } from 'react';
+import { MdDynamicForm } from 'react-icons/md';
 import { useSelector } from "react-redux";
+
 import moment from 'moment';
 import { HiOutlineCheckCircle, RiCheckboxCircleFill } from "react-icons/all";
 
@@ -15,10 +17,10 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                         m.senderId === myInfo.id ? <div key={index} ref={scrollRef} className="my-message">
                             <div className="image-message">
                                 <div className="my-text">
-                                    <p className='message-text my'>{m.message.text === '' ? <img src={`./image/${m.message.image}`} alt='image' /> : m.message.text}</p>
+                                    <p className='message-text my'>{m.message.text === '' ? <img src={`/image/${m.message.image}`} alt='image' /> : m.message.text}</p>
                                     {
                                         index === message.length - 1 && m.senderId === myInfo.id ?
-                                            m.status === 'seen' ? <img className='img' src={`./image/${currentfriend.image}`} alt="" /> : m.status === 'delivared' ? <span><RiCheckboxCircleFill /></span> : <span><HiOutlineCheckCircle /></span> : ''
+                                            m.status === 'seen' ? <img className='img' src={`/image/${currentfriend.image}`} alt="" /> : m.status === 'delivared' ? <span><RiCheckboxCircleFill /></span> : <span><HiOutlineCheckCircle /></span> : ''
                                     }
                                 </div>
 
