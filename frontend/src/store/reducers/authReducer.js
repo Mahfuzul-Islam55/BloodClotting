@@ -41,6 +41,7 @@ export const authReducer = (state= authState,action) =>{
     }
     if(type === REGISTER_SUCCESS || type === USER_LOGIN_SUCCESS){
         const myInfo = tokenDecode(payload.token);
+        console.log("MyInfo from auth ",myInfo);
         return{
             ...state,
             myInfo : myInfo,

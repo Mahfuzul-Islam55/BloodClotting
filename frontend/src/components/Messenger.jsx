@@ -269,7 +269,9 @@ const Messenger = () => {
                                     <img src={`./image/${myInfo.image}`} alt="" />
                                 </div>
                                 <div className="name">
-                                    <h3>{myInfo.userName}</h3>
+                                   {myInfo.doctor===true?<h3>Dr. {myInfo.userName}</h3>:<h3>{myInfo.userName}</h3>}
+        
+                                    {/* <h3>{myInfo.doctor==true} {myInfo.userName}</h3> */}
                                 </div>
                             </div>
                             <div className="icons">

@@ -14,7 +14,7 @@ const FriendInfo = ({currentfriend,activeUser,message}) => {
                 }
                 
                 <div className="name">
-                    <h4>{currentfriend.userName}</h4>
+                    <h4>{currentfriend.doctor==true?"Dr. ":''}{currentfriend.userName}</h4>
                 </div>
             </div>
             <div className="others">

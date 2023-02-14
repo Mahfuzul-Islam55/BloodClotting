@@ -17,6 +17,10 @@ const registerSchema = new Schema({
     image : {
         type : String,
         required : true
+    },
+    doctor:{
+        type:String,
+        required:true
     }
 },{timestamps : true});
 
