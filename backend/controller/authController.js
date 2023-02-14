@@ -14,8 +14,10 @@ module.exports.userRegister = (req, res) => {
             userName,
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            doctor
         } = fields;
+        console.log("Doctor from backend ",doctor);
         const {
             image
         } = files;
@@ -79,7 +81,8 @@ module.exports.userRegister = (req, res) => {
                                 userName,
                                 email,
                                 password: await bcrypt.hash(password, 10),
-                                image: files.image.name
+                                image: files.image.name,
+                                doctor
                             });
 
                             const token = jwt.sign({
@@ -87,7 +90,8 @@ module.exports.userRegister = (req, res) => {
                                 email: userCreate.email,
                                 userName: userCreate.userName,
                                 image: userCreate.image,
-                                registerTime: userCreate.createAt
+                                registerTime: userCreate.createAt2,
+                                doctor:userCreate.doctor
                             }, process.env.SECRET, {
                                 expiresIn: process.env.TOKEN_EXP
                             });
@@ -159,7 +163,8 @@ module.exports.userLogin = async (req, res) => {
                         email: checkUser.email,
                         userName: checkUser.userName,
                         image: checkUser.image,
-                        registerTime: checkUser.createAt
+                        registerTime: checkUser.createAt,
+                        doctor:checkUser.doctor
                     }, process.env.SECRET, {
                         expiresIn: process.env.TOKEN_EXP
                     });

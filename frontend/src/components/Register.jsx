@@ -12,13 +12,13 @@ const Register = ({history}) => {
     console.log(myInfo);
 
     const dispatch = useDispatch();
-
+    const [doctor,setDoctor]=useState(false);
     const [state,setstate] = useState({
         userName : '',
         email : '',
         password : '',
         confirmPassword : '',
-        image : ''
+        image : '',
     });
 
     const [loadImage,setLoadImage] = useState('');
@@ -28,6 +28,9 @@ const Register = ({history}) => {
             ...state,
             [e.target.name] : e.target.value
         })
+    }
+    const isDoctor=()=>{
+        setDoctor(!doctor);
     }
 
     const fileHendle = e =>{
@@ -58,7 +61,7 @@ const Register = ({history}) => {
         formData.append('password',password);
         formData.append('confirmPassword',confirmPassword);
         formData.append('image',image);
-
+        formData.append('doctor',doctor);
 
         dispatch(userRegister(formData));
 
@@ -101,6 +104,11 @@ const Register = ({history}) => {
                         <div className="form-group">
                             <label htmlFor="confirmPassword">Confirm password</label>
                             <input type="password" name ='confirmPassword' onChange={inputHendle} value = {state.confirmPassword} className="form-control" placeholder="confirm password" id="confirmPassword"/>
+                        </div>
+                        <div className="form-group" style={{display:"flex",flexDirection:"row"}}>
+                            <label htmlFor="doctor">Are you a doctor?</label>
+                            <input style={{marginLeft:"20px"}}onChange={isDoctor}type="checkbox" checked={doctor}/>
+                            {/* <label for="doctor">YES</label> */}
                         </div>
                         <div className="form-group">
                             <div className="file-image">
