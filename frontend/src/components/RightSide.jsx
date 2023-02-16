@@ -6,6 +6,7 @@ import FriendInfo from "./FriendInfo";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
 import Prescription from "./Prescription";
+import Chatbot from "./Chatbot";
 
 const RightSide = (props) => {
   const {
@@ -21,7 +22,9 @@ const RightSide = (props) => {
     typingMessage,
   } = props;
   const [show, setShow] = useState(false);
+  const[showCB,setShowCB]=useState(false);
   const handleShow = () => setShow(!show);
+  const handleShowCB=()=>setShowCB(!showCB);
   return (
     <div className="col-9">
       <div className="right-side">
@@ -62,8 +65,9 @@ const RightSide = (props) => {
                   </div>
                 </div>
               </div>
-              {show && <Prescription handleShow={handleShow} />}
-              {!show && (
+              {show  && <Prescription handleShow={handleShow} />}
+              {showCB &&  <Chatbot handleShowCB={handleShowCB} />}
+              {!show && !showCB && (
                 <Message
                   typingMessage={typingMessage}
                   currentfriend={currentfriend}
@@ -71,6 +75,9 @@ const RightSide = (props) => {
                   message={message}
                 />
               )}
+              <div style={{display:"flex",flexDirection:"row",marginRight:"10px"}}>
+
+             
               {!show && (
                 <div onClick={handleShow} className="message-send-section">
                   <div className="file hover-attachment">
@@ -79,7 +86,16 @@ const RightSide = (props) => {
                   </div>
                 </div>
               )}
-              {!show && (
+               { !showCB &&(
+                <div onClick={handleShowCB} className="message-send-section">
+                  <div className="file hover-attachment">
+                    <div className="add-attachment">Chat with AI</div>
+                    <BsPlusCircle />
+                  </div>
+                </div>
+              )}
+               </div>
+              {!show && !showCB && (
                 <MessageSend
                   ImageSend={ImageSend}
                   emojiSend={emojiSend}
