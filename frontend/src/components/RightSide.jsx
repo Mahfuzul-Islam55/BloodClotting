@@ -7,6 +7,7 @@ import Message from "./Message";
 import MessageSend from "./MessageSend";
 import Prescription from "./Prescription";
 import Chatbot from "./Chatbot";
+import Videocall from "./RoomHome/index";
 
 const RightSide = (props) => {
   const {
@@ -25,6 +26,8 @@ const RightSide = (props) => {
   const[showCB,setShowCB]=useState(false);
   const handleShow = () => setShow(!show);
   const handleShowCB=()=>setShowCB(!showCB);
+  const [Room,setRoom]=useState(false);
+  const handleRoom=()=>setRoom(!Room);
   return (
     <div className="col-9">
       <div className="right-side">
@@ -55,9 +58,10 @@ const RightSide = (props) => {
                   <div className="icon">
                     <IoCall />
                   </div>
-                  <div className="icon">
+                  <div className="icon" onClick={()=>setRoom(!Room)}>
                     <BsCameraVideoFill />
                   </div>
+                  {Room && <Videocall handleRoom={handleRoom} />}
                   <div className="icon">
                     <label htmlFor="dot">
                       <HiDotsCircleHorizontal />
