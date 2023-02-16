@@ -1,0 +1,32 @@
+.prescription {
+  width: 100%;
+  height: 100vh;
+  background-color: azure;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .card {
+    .card-header {
+      h3 {
+        text-align: center;
+        color: #fff;
+      }
+    }
+    .card-body {
+      .form-group {
+        .form-control {
+          color: #fff;
+        }
+        &:last-child {
+          margin-bottom: 0px;
+        }
+        span {
+          text-align: center;
+          a {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
