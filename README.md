@@ -15,9 +15,9 @@
   - Disease classification
   - Analysis Patient improvement point
   - Analysis Doctor improvement point
-  - online monitoring
+  - online monitoring via video call
   - Disease improvement scaleing
-  - Realtime chatbot for health guidence
+  - Realtime chatAI for health guidence
   - Online prescription record pdf
   
   
@@ -43,9 +43,9 @@
   - CNN
   - Gradient boost
   - openai gpt model
-  - online monitoring via iot device
+ 
   
 
 
    
-### Teaser of this application  [visit]()
+### Teaser [visit]()
