@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useAlert } from "react-alert";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-
+import Pdf from "react-to-pdf";
 export default function Prescription({ handleShow }) {
+  const ref = React.createRef();
   const alert = useAlert();
   const { loading, successMessage, error, authenticate, myInfo } = useSelector(
     (state) => state.auth
@@ -45,80 +46,65 @@ export default function Prescription({ handleShow }) {
 
   return (
     <div className="prescription">
-      <div className="card">
+      <div
+        ref={ref}
+        style={{
+          borderRadius: "5px",
+          backgroundColor: "#f2f2f2",
+          padding: "20px",
+        }}
+      >
         <div className="card-header">
           <h3>Prescription</h3>
           <div onClick={() => handleShow()} style={{ cursor: "pointer" }}>
             <AiFillCloseCircle />
           </div>
         </div>
-        <div className="card-body">
-          <form onSubmit={prescribe}>
-            <div className="form-group">
-              <label htmlFor="username">Name</label>
-              <input
-                type="text"
-                onChange={inputHendle}
-                name="userName"
-                value={state.userName}
-                className="form-control"
-                placeholder="User name"
-                id="username"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="age">Age</label>
-              <input
-                type="age"
-                value={state.age}
-                name="age"
-                onChange={inputHendle}
-                className="form-control"
-                placeholder="Age"
-                id="age"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Sex</label>
-              <input
-                type="sex"
-                name="sex"
-                onChange={inputHendle}
-                value={state.sex}
-                className="form-control"
-                placeholder="Sex"
-                id="sex"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Education</label>
-              <input
-                type="education"
-                name="education"
-                onChange={inputHendle}
-                value={state.education}
-                className="form-control"
-                placeholder="Education"
-                id="Education"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="text">Text</label>
-              <textarea
-                type="text"
-                name="text"
-                onChange={inputHendle}
-                value={state.text}
-                className="form-control"
-                placeholder="Text"
-                id="text"
-              />
-            </div>
+        <label for="fname">First Name</label>
+        <input
+          style={{
+            width: "100%",
+            padding: "12px 20px",
+            margin: "8px 0",
+            display: "inline-block",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            boxSizing: "border-box",
+          }}
+          type="text"
+          id="fname"
+          name="firstname"
+          placeholder="Your name.."
+        />
 
-            <div className="form-group">
-              <input type="submit" value="prescribe" className="btn" />
-            </div>
-          </form>
+        <label for="lname">Last Name</label>
+        <input
+          style={{
+            width: "100%",
+            padding: "12px 20px",
+            margin: "8px 0",
+            display: "inline-block",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            boxSizing: "border-box",
+          }}
+          type="text"
+          id="fname"
+          name="firstname"
+          placeholder="Your name.."
+        />
+        <div className="form-group">
+          <Pdf targetRef={ref} filename="code-example.pdf">
+            {({ toPdf }) => (
+              <button onClick={toPdf}>
+                <input
+                  type="submit"
+                  value="Send Prescription"
+                  className="btn"
+                />
+              </button>
+            )}
+          </Pdf>
         </div>
       </div>
     </div>
