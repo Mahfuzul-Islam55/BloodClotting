@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Alegreya Sans", sans-serif;
+}
+form {
+  width: 50%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 10px;
+  background: #81a1d0;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+.textarea {
+  width: 70%;
+
+  color: #473b3b;
+  font-size: 18px;
+
+  /* padding: 5px; */
+  background: transparent;
+  background-color: rgb(197, 205, 225);
+  border-radius: 10px;
+  outline: 10;
+  border: 10;
+}
+
+button {
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  transition: .5;
+}
+.sbtn{
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  transition: .5;
+}
+.sbtn:hover{
+  background: red;
+}
+
+form img {
+  width: 30px;
+  height: 30px;
+}
+
+
+
+
