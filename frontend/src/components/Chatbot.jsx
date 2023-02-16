@@ -37,7 +37,8 @@ export default function Chatbot({ handleShow }) {
                                       })
                                       .catch(err => console.warn(err,' error '))
 
-                                    }
+                                    
+    }
 
   return(
     <><div>
