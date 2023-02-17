@@ -9,6 +9,8 @@ import Prescription from "./Prescription";
 import Chatbot from "./Chatbot";
 import { VideoCall } from "./VideoCall";
 import { useHistory } from "react-router-dom";
+import BloodTiff from "./BloodTiff";
+import BloodPng from "./BloodPng";
 
 const RightSide = (props) => {
   const {
@@ -33,10 +35,25 @@ const RightSide = (props) => {
   // const history = useHistory();
   // // const value = Math.floor(Math.random() * (9000000 - 99999) + 99999);
   // //console.log(value);
-  // const [value, setValue] = useState("5");
+  const [value, setValue] = useState();
   // const handleJoinRoom = useCallback(() => {
   //   history.push(`/room/${value}`);
   // }, [history, value]);
+  const history = useHistory();
+  // let { roomID } = useParams();
+  // let roomID = `${Math.floor(Math.random() * (9000000 - 99999) + 99999)}`;
+  // let value = roomID;
+
+  const handlejoinRoom = useCallback(() => {
+    console.log("pre ",value);
+    history.push(`/room/${value}`);
+    console.log("next  ",value);
+  }, [history, value]);
+
+  const [showTiff,setShowTiff]=useState(false);
+  const [showPng,setShowPng]=useState(false);
+  const handleShowTiff = () => setShowTiff(!showTiff);
+  const handleShowPng = () => setShowPng(!showPng);
 
   return (
     <div className="col-9">
@@ -69,7 +86,7 @@ const RightSide = (props) => {
                     <IoCall />
                   </div>
                   <div className="icon" onClick={() => setRoom(!Room)}>
-                    <BsCameraVideoFill />
+                    <BsCameraVideoFill onClick={handlejoinRoom}/>
                   </div>
                   {Room && <VideoCall />}
                   <div className="icon">
@@ -81,7 +98,10 @@ const RightSide = (props) => {
               </div>
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
-              {!show && !showCB && (
+              {showTiff && <BloodTiff handleShowTiff={handleShowTiff}/>}
+              {showPng && <BloodPng handleShowPng={handleShowPng}/>}
+
+              {!show && !showCB && !showTiff && !showPng && (
                 <Message
                   typingMessage={typingMessage}
                   currentfriend={currentfriend}
@@ -112,8 +132,24 @@ const RightSide = (props) => {
                     </div>
                   </div>
                 )}
+                {!showTiff && (
+                  <div onClick={handleShowTiff} className="message-send-section">
+                    <div className="file hover-attachment">
+                      <div className="add-attachment">Submit Tiff</div>
+                      <BsPlusCircle />
+                    </div>
+                  </div>
+                )}
+                {!showPng && (
+                  <div onClick={handleShowPng} className="message-send-section">
+                    <div className="file hover-attachment">
+                      <div className="add-attachment">Submit Png</div>
+                      <BsPlusCircle />
+                    </div>
+                  </div>
+                )}
               </div>
-              {!show && !showCB && (
+              {!show && !showCB && !showTiff && !showPng &&(
                 <MessageSend
                   ImageSend={ImageSend}
                   emojiSend={emojiSend}

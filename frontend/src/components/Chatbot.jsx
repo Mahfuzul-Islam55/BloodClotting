@@ -2,22 +2,17 @@ import React, { useState } from "react";
 import { useAlert } from "react-alert";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Modal,ModalHeader, ModalBody,Row } from 'reactstrap';
 import bot from './assets/bot.svg'
 import user from './assets/user.svg'
 import send from './assets/send.svg'
 import axios from "axios";
 import './style.css'
 
-export default function Chatbot({ handleShow }) {
+export default function Chatbot({ handleShowCB }) {
   const alert = useAlert();
   const { loading, successMessage, error, authenticate, myInfo } = useSelector(
     (state) => state.auth
   );
-
-
-  const [modal, setmodal] = useState(true)
  
   const [response, setResponse] = useState('');
   const [prompt, setPrompt] = useState('');
@@ -41,23 +36,12 @@ export default function Chatbot({ handleShow }) {
     }
 
   return(
-    <><div>
-    <Modal 
-        size='lg'
-        isOpen={modal}
-        toggle={() => setmodal(!modal)}
-            >
-{/* 
-        <ModalHeader toggle={() => setmodal(!modal)}>
-            popup
-          </ModalHeader> */}
-
-          <ModalBody>
-     
-          <div>
- 
+    
+              <div>
                 <form onSubmit={handleSubmit} >       
-
+                <div onClick={() => handleShowCB()} style={{ cursor: "pointer" }}>
+            <AiFillCloseCircle />
+          </div>
                 <div className='user'>
                 <img src={user} /><input className='textarea'
                 placeholder="  Ask me anything..."
@@ -70,14 +54,7 @@ export default function Chatbot({ handleShow }) {
                 <div className='bot'><img src={bot} />{response}</div>
 
                 </form>
-                </div>
-
-          </ModalBody>
-        </Modal>
-   
-    </div>
-    
-    </>
+             </div>   
   )
 
 }

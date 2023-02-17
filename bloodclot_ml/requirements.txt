@@ -1,0 +1,15 @@
+tqdm
+torch
+torchvision
+seam-carving
+seaborn
+scikit-image
+scikit-learn
+rasterio
+pandas
+numpy
+matplotlib
+albumentations
+Flask
+flask_cors
+requests

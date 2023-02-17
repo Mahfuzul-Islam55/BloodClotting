@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import Messenger from "./components/Messenger";
 import ProtectRoute from "./components/ProtectRoute";
 import Prescription from "./components/Prescription";
+import { VideoCall } from "./components/VideoCall";
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
           component={Prescription}
           exact
         ></Route>
+          <Route path="/room/:roomID" component ={VideoCall} exact/>
         <ProtectRoute path="/" component={Messenger} exact />
       </Switch>
     </Router>
