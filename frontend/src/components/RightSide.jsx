@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { BsCameraVideoFill, BsPlusCircle } from "react-icons/bs";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { IoCall } from "react-icons/io5";
@@ -7,7 +7,8 @@ import Message from "./Message";
 import MessageSend from "./MessageSend";
 import Prescription from "./Prescription";
 import Chatbot from "./Chatbot";
-import Videocall from "./RoomHome/index";
+import { VideoCall } from "./VideoCall";
+import { useHistory } from "react-router-dom";
 
 const RightSide = (props) => {
   const {
@@ -23,11 +24,20 @@ const RightSide = (props) => {
     typingMessage,
   } = props;
   const [show, setShow] = useState(false);
-  const[showCB,setShowCB]=useState(false);
+  const [showCB, setShowCB] = useState(false);
   const handleShow = () => setShow(!show);
-  const handleShowCB=()=>setShowCB(!showCB);
-  const [Room,setRoom]=useState(false);
-  const handleRoom=()=>setRoom(!Room);
+  const handleShowCB = () => setShowCB(!showCB);
+  const [Room, setRoom] = useState(false);
+  const handleRoom = () => setRoom(!Room);
+
+  // const history = useHistory();
+  // // const value = Math.floor(Math.random() * (9000000 - 99999) + 99999);
+  // //console.log(value);
+  // const [value, setValue] = useState("5");
+  // const handleJoinRoom = useCallback(() => {
+  //   history.push(`/room/${value}`);
+  // }, [history, value]);
+
   return (
     <div className="col-9">
       <div className="right-side">
@@ -58,10 +68,10 @@ const RightSide = (props) => {
                   <div className="icon">
                     <IoCall />
                   </div>
-                  <div className="icon" onClick={()=>setRoom(!Room)}>
+                  <div className="icon" onClick={() => setRoom(!Room)}>
                     <BsCameraVideoFill />
                   </div>
-                  {Room && <Videocall handleRoom={handleRoom} />}
+                  {Room && <VideoCall />}
                   <div className="icon">
                     <label htmlFor="dot">
                       <HiDotsCircleHorizontal />
@@ -69,8 +79,8 @@ const RightSide = (props) => {
                   </div>
                 </div>
               </div>
-              {show  && <Prescription handleShow={handleShow} />}
-              {showCB &&  <Chatbot handleShowCB={handleShowCB} />}
+              {show && <Prescription handleShow={handleShow} />}
+              {showCB && <Chatbot handleShowCB={handleShowCB} />}
               {!show && !showCB && (
                 <Message
                   typingMessage={typingMessage}
@@ -79,26 +89,30 @@ const RightSide = (props) => {
                   message={message}
                 />
               )}
-              <div style={{display:"flex",flexDirection:"row",marginRight:"10px"}}>
-
-             
-              {!show && (
-                <div onClick={handleShow} className="message-send-section">
-                  <div className="file hover-attachment">
-                    <div className="add-attachment">Add Prescription</div>
-                    <BsPlusCircle />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginRight: "10px",
+                }}
+              >
+                {!show && (
+                  <div onClick={handleShow} className="message-send-section">
+                    <div className="file hover-attachment">
+                      <div className="add-attachment">Add Prescription</div>
+                      <BsPlusCircle />
+                    </div>
                   </div>
-                </div>
-              )}
-               { !showCB &&(
-                <div onClick={handleShowCB} className="message-send-section">
-                  <div className="file hover-attachment">
-                    <div className="add-attachment">Chat with AI</div>
-                    <BsPlusCircle />
+                )}
+                {!showCB && (
+                  <div onClick={handleShowCB} className="message-send-section">
+                    <div className="file hover-attachment">
+                      <div className="add-attachment">Chat with AI</div>
+                      <BsPlusCircle />
+                    </div>
                   </div>
-                </div>
-              )}
-               </div>
+                )}
+              </div>
               {!show && !showCB && (
                 <MessageSend
                   ImageSend={ImageSend}
