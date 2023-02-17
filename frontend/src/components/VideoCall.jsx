@@ -5,14 +5,14 @@ import { useHistory } from "react-router-dom";
 
 export const VideoCall = () => {
   console.log("hello video");
-  const history = useHistory();
-  // let { roomID } = useParams();
-  let roomID = `${Math.floor(Math.random() * (9000000 - 99999) + 99999)}`;
-  let value = roomID;
+  // const history = useHistory();
+  let { roomID } = useParams();
+  // let roomID = `${Math.floor(Math.random() * (9000000 - 99999) + 99999)}`;
+  // let value = roomID;
 
-  const handleRoom = useCallback(() => {
-    history.push(`/room/${value}`);
-  }, [history, value]);
+  // const handleRoom = useCallback(() => {
+  //   history.push(`/room/${value}`);
+  // }, [history, value]);
 
   const myMeeting = async (element) => {
     const appID = 1870304133;
@@ -43,7 +43,7 @@ export const VideoCall = () => {
 
   return (
     <div>
-      <div ref={myMeeting} onClick={handleRoom} />
+      <div ref={myMeeting}  />
     </div>
   );
 };
