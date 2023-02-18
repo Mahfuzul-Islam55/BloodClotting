@@ -40,8 +40,8 @@ export default function Chatbot({ handleShowCB }) {
               <div>
                 <form onSubmit={handleSubmit} >       
                 <div onClick={() => handleShowCB()} style={{ cursor: "pointer" }}>
-            <AiFillCloseCircle />
-          </div>
+                  <AiFillCloseCircle />
+                </div>
                 <div className='user'>
                 <img src={user} /><input className='textarea'
                 placeholder="  Ask me anything..."

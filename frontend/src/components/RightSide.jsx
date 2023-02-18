@@ -32,25 +32,12 @@ const RightSide = (props) => {
   const handleShow = () => setShow(!show);
   const handleShowCB = () => setShowCB(!showCB);
   const [Room, setRoom] = useState(false);
-  const handleRoom = () => setRoom(!Room);
 
-  // const history = useHistory();
-  // // const value = Math.floor(Math.random() * (9000000 - 99999) + 99999);
-  // //console.log(value);
-  const [value, setValue] = useState();
-  // const handleJoinRoom = useCallback(() => {
-  //   history.push(`/room/${value}`);
-  // }, [history, value]);
-  const history = useHistory();
-  // let { roomID } = useParams();
-  // let roomID = `${Math.floor(Math.random() * (9000000 - 99999) + 99999)}`;
-  // let value = roomID;
-
-  const handlejoinRoom = useCallback(() => {
-    console.log("pre ", value);
-    history.push(`/room/${value}`);
-    console.log("next  ", value);
-  }, [history, value]);
+  const handlejoinRoom = () => {
+    setRoom(Room);
+    let value = `${Math.floor(Math.random() * (9000000 - 9999) + 9999)}`;
+    window.open(`/room/${value}`);
+  };
 
   const [showTiff, setShowTiff] = useState(false);
   const [showPng, setShowPng] = useState(false);
@@ -87,9 +74,11 @@ const RightSide = (props) => {
                   <div className="icon">
                     <IoCall />
                   </div>
-                  <div className="icon" onClick={() => setRoom(!Room)}>
-                    <BsCameraVideoFill onClick={handlejoinRoom} />
+                  {/* onClick={() => setRoom(Room)} */}
+                  <div className="icon" onClick={handlejoinRoom}>
+                    <BsCameraVideoFill />
                   </div>
+                  {/* onClick={handlejoinRoom} */}
                   {Room && <VideoCall />}
                   <div className="icon">
                     <label htmlFor="dot">
