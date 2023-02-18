@@ -24,10 +24,10 @@ from albumentations.pytorch import ToTensorV2
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import roc_auc_score
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 # %matplotlib inline
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import os
@@ -67,13 +67,15 @@ def tiff_to_png(test):
     # ax = axes.ravel()
     for i in tqdm(range(test.shape[0])):        
     # Remove Background White Space
+        curr_dir=os.getcwd()
         img_id = test.iloc[i].image_id
-        img_path = f'/test/{img_id}.tif'
-
+        img_path = f'{curr_dir}/test/{img_id}.tif'
+        
         image = rasterio.open(img_path)
         image = image.read(out_shape=(image.count, int(image_scalar), int(image_scalar)),
                                  resampling=Resampling.bilinear).transpose(1,2,0)
         image_h, image_w, _ = image.shape
+        print("test shape ",test.shape,"image shape ",image.shape)
         image = seam_carving.resize(image, (image_w-512, image_h-512),
                                         energy_mode='backward',
                                         order=('width-first'),
@@ -91,9 +93,10 @@ def tiff_to_png(test):
         print(image.shape)
 
 
-        skimage.io.imsave(f'/test/{img_id}.png', image)
+        skimage.io.imsave(f'{curr_dir}/test/{img_id}.png', image)
         del image
         gc.collect()
+        print(" success   ------------------------")
         return 
 
 # Step 1.2.2 Definition Data Set Class
@@ -157,18 +160,33 @@ def pred_api(file):
     
     test_image = request.get_data()
     curr_dir=os.getcwd()
-    print("path printing ",curr_dir)
-    # os.chdir('sense-23_backend')
-        # Step 1.3 Test Transform
+    print("path printing pre",curr_dir)
+    exten='tif'
+    # saving incoming
+    os.chdir('test')
+    curr_dir=os.getcwd()
+    # print("path printing in ",curr_dir)
+    
+    subprocess.run(['del','-r', '*'],shell=True)
+    with open(f'{file}.{exten}', "wb") as code:
+        code.write(test_image)
+    os.chdir('../')
+    curr_dir=os.getcwd()
+    # print("path printing after",curr_dir)
+    
+    # Step 1.3 Test Transform
     transform_test = Albu.Compose([Albu.Normalize(mean=[0.485, 0.456, 0.406], 
                                                 std=[0.229, 0.224, 0.225]),
                                 ToTensorV2()])
-    test = pd.read_csv('./test/test.csv')
-
+   
     #1.3 preprocessing tif to png
-    #tiff_to_png(test_image)
-    # img_path = f'/test/{file}.png'
-    img_path = './test/008e5c_0.png'
+    test = {'image_id':[file],'center_id':[1],'patient_id':[2],'image_num':[1]}
+    test =pd.DataFrame(test)
+    
+    #tiff_to_png(test)
+    tiff_to_png(test)
+    #img_path = f'/test/{img_id}.tif'
+    img_path = f'{curr_dir}/test/{file}.PNG'
 
     # 1.4 Test Data Set
     img_dir = './test'
@@ -196,8 +214,9 @@ def pred_api(file):
     
     # Step 3.8.6 Submission
     preds, ids = predict(model[0], loader_test)
-
-    print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
+    curr_dir=os.getcwd()
+    # print("path printing last",curr_dir,"     ",img_path)
+    # print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
     pil_img = Image.open(img_path, mode='r') # reads the PIL image
     byte_arr = io.BytesIO()
     pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
@@ -219,4 +238,5 @@ if __name__ == "__main__":
     app.run(port=5002)
 
 
+    
       
