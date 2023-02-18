@@ -19,6 +19,7 @@ import {
   updateMessage,
   getTheme,
   themeSet,
+  TiffMessageSend,
 } from "../store/actions/messengerAction";
 import { userLogout } from "../store/actions/authAction";
 import useSound from "use-sound";
@@ -198,6 +199,21 @@ const Messenger = () => {
     }
   };
 
+  const TiffSend = (e) => {
+    if (e.target.files.length !== 0) {
+      const imagename = e.target.files[0].name;
+      const newImageName = Date.now() + imagename;
+
+      const formData = new FormData();
+
+      formData.append("senderName", myInfo.userName);
+      formData.append("imageName", newImageName);
+      formData.append("reseverId", currentfriend._id);
+      formData.append("image", e.target.files[0]);
+
+      dispatch(TiffMessageSend(formData));
+    }
+  };
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -397,6 +413,7 @@ const Messenger = () => {
             scrollRef={scrollRef}
             emojiSend={emojiSend}
             typingMessage={typingMessage}
+            TiffSend={TiffSend}
           />
         ) : (
           "Please select you friend"
