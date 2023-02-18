@@ -27,11 +27,14 @@ from sklearn.metrics import roc_auc_score
 from tqdm.notebook import tqdm
 # %matplotlib inline
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import json
 import os
 import subprocess
+import io
+from base64 import encodebytes
+from PIL import Image
 app = Flask(__name__)
 
 CORS(app)
@@ -149,6 +152,7 @@ def predict(model, loader_test):
 
 
 @app.route('/prediction/<file>',methods=['POST','GET'])
+@torch.no_grad()
 def pred_api(file):
     
     test_image = request.get_data()
@@ -160,6 +164,11 @@ def pred_api(file):
                                                 std=[0.229, 0.224, 0.225]),
                                 ToTensorV2()])
     test = pd.read_csv('./test/test.csv')
+
+    #1.3 preprocessing tif to png
+    #tiff_to_png(test_image)
+    # img_path = f'/test/{file}.png'
+    img_path = './test/008e5c_0.png'
 
     # 1.4 Test Data Set
     img_dir = './test'
@@ -189,16 +198,25 @@ def pred_api(file):
     preds, ids = predict(model[0], loader_test)
 
     print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
-    
-    # pred_json={
-        
-    #     "names": preds
-    # }
+    pil_img = Image.open(img_path, mode='r') # reads the PIL image
+    byte_arr = io.BytesIO()
+    pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
+    encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+    ce=float(preds[:,0])
+    laa= float(preds[:,1]) 
 
-    return jsonify("done bro ---- ")
+    pred_json={       
+       'img_name' : file ,
+       'img_data': encoded_img,
+        'CE' : ce ,
+        'LAA' : laa,
+        
+    }
+
+    return jsonify(pred_json)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5002)
 
 
       

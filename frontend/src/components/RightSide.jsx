@@ -1,5 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { BsCameraVideoFill, BsPlusCircle } from "react-icons/bs";
+import {
+  BsCameraVideoFill,
+  BsPlusCircle,
+  BsPlusCircleFill,
+} from "react-icons/bs";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { IoCall } from "react-icons/io5";
 import FriendInfo from "./FriendInfo";
@@ -11,6 +15,7 @@ import { VideoCall } from "./VideoCall";
 import { useHistory } from "react-router-dom";
 import BloodTiff from "./BloodTiff";
 import BloodPng from "./BloodPng";
+import { RiGalleryLine } from "react-icons/ri";
 
 const RightSide = (props) => {
   const {
@@ -24,22 +29,22 @@ const RightSide = (props) => {
     ImageSend,
     activeUser,
     typingMessage,
+    TiffSend,
   } = props;
   const [show, setShow] = useState(false);
   const [showCB, setShowCB] = useState(false);
   const handleShow = () => setShow(!show);
   const handleShowCB = () => setShowCB(!showCB);
   const [Room, setRoom] = useState(false);
-  
 
-  const handlejoinRoom =() => {
-    setRoom(Room)
+  const handlejoinRoom = () => {
+    setRoom(Room);
     let value = `${Math.floor(Math.random() * (9000000 - 9999) + 9999)}`;
-    window.open(`/room/${value}`);  
+    window.open(`/room/${value}`);
   };
 
-  const [showTiff,setShowTiff]=useState(false);
-  const [showPng,setShowPng]=useState(false);
+  const [showTiff, setShowTiff] = useState(false);
+  const [showPng, setShowPng] = useState(false);
   const handleShowTiff = () => setShowTiff(!showTiff);
   const handleShowPng = () => setShowPng(!showPng);
 
@@ -73,12 +78,10 @@ const RightSide = (props) => {
                   <div className="icon">
                     <IoCall />
                   </div>
-                  {/* onClick={() => setRoom(Room)} */}
-                  <div className="icon" onClick={handlejoinRoom} >
+                  <div className="icon" onClick={handlejoinRoom}>
                     <BsCameraVideoFill />
                   </div>
-                  {/* onClick={handlejoinRoom} */}
-                  {Room && <VideoCall  />}
+                  {Room && <VideoCall />}
                   <div className="icon">
                     <label htmlFor="dot">
                       <HiDotsCircleHorizontal />
@@ -88,10 +91,15 @@ const RightSide = (props) => {
               </div>
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
-              {showTiff && <BloodTiff handleShowTiff={handleShowTiff}/>}
-              {showPng && <BloodPng handleShowPng={handleShowPng}/>}
+              {/* {showTiff && (
+                <BloodTiff
+                  handleShowTiff={handleShowTiff}
+                  TiffSend={TiffSend}
+                />
+              )} */}
+              {showPng && <BloodPng handleShowPng={handleShowPng} />}
 
-              {!show && !showCB && !showTiff && !showPng && (
+              {!show && !showCB && !showPng && (
                 <Message
                   typingMessage={typingMessage}
                   currentfriend={currentfriend}
@@ -122,14 +130,25 @@ const RightSide = (props) => {
                     </div>
                   </div>
                 )}
-                {!showTiff && (
-                  <div onClick={handleShowTiff} className="message-send-section">
+                {
+                  <div
+                    onClick={handleShowTiff}
+                    className="message-send-section"
+                  >
                     <div className="file hover-attachment">
                       <div className="add-attachment">Submit Tiff</div>
-                      <BsPlusCircle />
+                      <input
+                        onChange={TiffSend}
+                        type="file"
+                        id="pic"
+                        className="form-control"
+                      />
+                      <label htmlFor="pic">
+                        <BsPlusCircleFill />
+                      </label>
                     </div>
                   </div>
-                )}
+                }
                 {!showPng && (
                   <div onClick={handleShowPng} className="message-send-section">
                     <div className="file hover-attachment">
@@ -139,7 +158,8 @@ const RightSide = (props) => {
                   </div>
                 )}
               </div>
-              {!show && !showCB && !showTiff && !showPng &&(
+              {/*  */}
+              {!show && !showCB && !showPng && (
                 <MessageSend
                   ImageSend={ImageSend}
                   emojiSend={emojiSend}
