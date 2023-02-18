@@ -157,18 +157,31 @@ def pred_api(file):
     
     test_image = request.get_data()
     curr_dir=os.getcwd()
-    print("path printing ",curr_dir)
-    # os.chdir('sense-23_backend')
-        # Step 1.3 Test Transform
+    print("path printing pre",curr_dir)
+    
+    # saving incoming
+    os.chdir('test')
+    subprocess.run(['rm', '*'],shell=True)
+    with open(file, "wb") as code:
+        code.write(test_image)
+    os.chdir('../')
+    curr_dir=os.getcwd()
+    print("path printing after",curr_dir)
+    
+    # Step 1.3 Test Transform
     transform_test = Albu.Compose([Albu.Normalize(mean=[0.485, 0.456, 0.406], 
                                                 std=[0.229, 0.224, 0.225]),
                                 ToTensorV2()])
     test = pd.read_csv('./test/test.csv')
 
     #1.3 preprocessing tif to png
-    #tiff_to_png(test_image)
-    # img_path = f'/test/{file}.png'
-    img_path = './test/008e5c_0.png'
+    test = {'image_id':[file],'center_id':[1],'patient_id':[2],'image_num':[1]}
+    test =pd.DataFrame(test)
+    
+    #tiff_to_png(test)
+    tiff_to_png(test)
+    
+    img_path = f'/test/{file}'
 
     # 1.4 Test Data Set
     img_dir = './test'
@@ -197,7 +210,7 @@ def pred_api(file):
     # Step 3.8.6 Submission
     preds, ids = predict(model[0], loader_test)
 
-    print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
+    # print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
     pil_img = Image.open(img_path, mode='r') # reads the PIL image
     byte_arr = io.BytesIO()
     pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
