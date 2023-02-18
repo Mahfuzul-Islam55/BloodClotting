@@ -3,6 +3,8 @@ import {
   FRIENDS_GET_SUCCESS,
   MESSAGE_GET_SUCCESS,
   MESSAGE_SEND_SUCCESS,
+  ML_IMAGE_SEND_FAILURE,
+  ML_IMAGE_SEND_SUCCESS,
 } from "../types/messengerType";
 export const getFriends = () => async (dispatch) => {
   try {
@@ -73,13 +75,16 @@ export const TiffMessageSend = (data) => async (dispatch) => {
   // console.log("TiffMessageName: ", imageData);
   try {
     console.log(data);
-    const response = await axios
-      .post(`http://127.0.0.1:5002/prediction/<${imageName}>`, imageData)
-      .then((res) => console.log(res, " response from mlserver"))
-      .catch((err) => console.warn(err, "  error from ml server"));
+    const response = await axios.post(
+      `http://127.0.0.1:5002/prediction/<${imageName}>`,
+      imageData
+    );
+    console.log(response.data);
+    // .then((res) => console.log(res, " response from mlserver"))
+    // .catch((err) => console.warn(err, "  error from ml server"));
 
     dispatch({
-      type: MESSAGE_SEND_SUCCESS,
+      type: ML_IMAGE_SEND_SUCCESS,
       payload: {
         message: response.data,
       },
@@ -88,6 +93,12 @@ export const TiffMessageSend = (data) => async (dispatch) => {
     console.log(
       "error console cause response not do proper work from localhost 5003"
     );
+    dispatch({
+      type: ML_IMAGE_SEND_FAILURE,
+      payload: {
+        message: "Something is wrong.Please try again.",
+      },
+    });
     console.log(error);
   }
 };
