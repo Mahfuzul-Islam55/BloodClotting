@@ -1,5 +1,9 @@
 import React, { useState, useCallback } from "react";
-import { BsCameraVideoFill, BsPlusCircle } from "react-icons/bs";
+import {
+  BsCameraVideoFill,
+  BsPlusCircle,
+  BsPlusCircleFill,
+} from "react-icons/bs";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { IoCall } from "react-icons/io5";
 import FriendInfo from "./FriendInfo";
@@ -74,11 +78,9 @@ const RightSide = (props) => {
                   <div className="icon">
                     <IoCall />
                   </div>
-                  {/* onClick={() => setRoom(Room)} */}
                   <div className="icon" onClick={handlejoinRoom}>
                     <BsCameraVideoFill />
                   </div>
-                  {/* onClick={handlejoinRoom} */}
                   {Room && <VideoCall />}
                   <div className="icon">
                     <label htmlFor="dot">
@@ -142,7 +144,7 @@ const RightSide = (props) => {
                         className="form-control"
                       />
                       <label htmlFor="pic">
-                        <BsPlusCircle />
+                        <BsPlusCircleFill />
                       </label>
                     </div>
                   </div>
@@ -156,6 +158,7 @@ const RightSide = (props) => {
                   </div>
                 )}
               </div>
+              {/*  */}
               {!show && !showCB && !showPng && (
                 <MessageSend
                   ImageSend={ImageSend}

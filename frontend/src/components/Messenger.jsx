@@ -202,7 +202,7 @@ const Messenger = () => {
   const TiffSend = (e) => {
     if (e.target.files.length !== 0) {
       const imagename = e.target.files[0].name;
-      const newImageName = Date.now() + imagename;
+      const newImageName = imagename;
 
       const formData = new FormData();
 

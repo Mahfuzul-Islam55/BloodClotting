@@ -50,6 +50,7 @@ export const getMessage = (id) => {
 
 export const ImageMessageSend = (data) => async (dispatch) => {
   try {
+    console.log(data);
     const response = await axios.post(
       "/api/messenger/image-message-send",
       data
@@ -67,18 +68,27 @@ export const ImageMessageSend = (data) => async (dispatch) => {
 
 export const TiffMessageSend = (data) => async (dispatch) => {
   console.log("Tiff");
-  const imageName = data.keys("image");
-  console.log("TiffMessageName: ", imageName);
+  const imageData = data.get("image");
+  const imageName = data.get("imageName");
+  // console.log("TiffMessageName: ", imageData);
   try {
-    const response = await axios.get("localhost:50003/prediction", data);
+    console.log(data);
+    const response = await axios
+      .post(`http://127.0.0.1:5002/prediction/<${imageName}>`, imageData)
+      .then((res) => console.log(res, " response from mlserver"))
+      .catch((err) => console.warn(err, "  error from ml server"));
+
     dispatch({
       type: MESSAGE_SEND_SUCCESS,
       payload: {
-        message: response.data.message,
+        message: response.data,
       },
     });
   } catch (error) {
-    console.log(error.response.data);
+    console.log(
+      "error console cause response not do proper work from localhost 5003"
+    );
+    console.log(error);
   }
 };
 
