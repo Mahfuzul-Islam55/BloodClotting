@@ -16,7 +16,7 @@ import { useHistory } from "react-router-dom";
 import BloodTiff from "./BloodTiff";
 import BloodPng from "./BloodPng";
 import { RiGalleryLine } from "react-icons/ri";
-
+import { useSelector } from "react-redux";
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -47,6 +47,9 @@ const RightSide = (props) => {
   const [showPng, setShowPng] = useState(false);
   const handleShowTiff = () => setShowTiff(!showTiff);
   const handleShowPng = () => setShowPng(!showPng);
+
+  const { mlData } = useSelector((state) => state.messenger);
+  console.log("Data from rightside: ", mlData);
 
   return (
     <div className="col-9">
