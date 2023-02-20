@@ -36,7 +36,7 @@ const BloodPng = ({ handleShowPng }) => {
         }}
       />
       <img
-        src={`data:image/png;base64,${StainImage.img._z}`}
+        src={`data:image/png;base64,${StainImage.img_z}`}
         style={{
           display: "block",
           width: "75%",
