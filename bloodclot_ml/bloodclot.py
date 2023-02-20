@@ -37,6 +37,19 @@ from base64 import encodebytes
 from PIL import Image
 from pathlib import Path
 
+from imutils import paths
+import skimage
+from skimage.filters import sobel
+from skimage import segmentation
+from skimage.color import label2rgb
+from skimage.color import rgb2hed, hed2rgb
+from skimage.exposure import rescale_intensity
+import tifffile as tifi
+import cv2 as cv
+from skimage.measure import regionprops, regionprops_table
+from sklearn.preprocessing import StandardScaler
+from scipy import ndimage as ndi
+
 app = Flask(__name__)
 
 CORS(app)
@@ -155,6 +168,106 @@ def predict(model, loader_test):
 
 
 
+############
+def read_tiff(path):
+    image = tifi.imread(path)
+    filename = path.split('/')[-1].rstrip('.tif')
+    print("image_id: " + filename)
+    return image, filename
+
+def resize_image(image):
+    re_sized_image = cv.resize(image,(int(image.shape[1]/53),int(image.shape[0]/53)),interpolation= cv.INTER_LINEAR)
+    return re_sized_image
+def convert_image_grayscale(image):
+    gray_image = cv.cvtColor(image, cv.COLOR_RGB2GRAY)
+    return gray_image
+def segment_images(resized_gray_img):
+    elevation_map = sobel(resized_gray_img)
+    markers = np.zeros_like(resized_gray_img)
+    markers[resized_gray_img >= resized_gray_img.mean()] = 1
+    markers[resized_gray_img < resized_gray_img.mean()] = 2
+    segmented_img = segmentation.watershed(elevation_map, markers)
+    filled_segments = ndi.binary_fill_holes(segmented_img - 1)
+    labeled_segments, _ = ndi.label(filled_segments)
+    return labeled_segments
+
+def get_object_coordinates(labeled_segments):
+    properties =['area','bbox','convex_area','bbox_area', 'major_axis_length', 'minor_axis_length', 'eccentricity']
+    df = pd.DataFrame(regionprops_table(labeled_segments, properties=properties))
+    standard_scaler = StandardScaler()
+    scaled_area = standard_scaler.fit_transform(df.area.values.reshape(-1,1))
+    df['scaled_area'] = scaled_area
+    df.sort_values(by="scaled_area", ascending=False, inplace=True)
+    objects = df[df['scaled_area']>=.75]
+    print(objects.head())
+    object_coordinates = [(row['bbox-0'],row['bbox-1'],row['bbox-2'],row['bbox-3'] )for index, row in objects.iterrows()]
+    return object_coordinates
+
+def rescale_coordinates(object_location, image):
+    top, bottom, left, right = object_location
+    left = int(left * image.shape[0])
+    bottom = int(bottom * image.shape[1])
+    right = int(right * image.shape[0])
+    top = int(top * image.shape[1])
+    return top, bottom, left, right
+
+def normalize_coordinates(object_coordinates, image):
+    top, bottom, left, right = object_coordinates
+    left = (int(left) / image.shape[0])
+    bottom = (int(bottom) / image.shape[1])
+    right = int(left) + (int(right) / image.shape[0])
+    top = int(bottom) + (int(top) / image.shape[1])
+    
+    # object_location = top, bottom, left, right
+    # top, bottom, left, right = rescale_coordinates(object_location, image)
+    
+    return top, bottom, left, right
+
+def patches_dictionary(object_coordinates, re_sized_image, image, filename):
+    patches = {}
+    for i in range(len(object_coordinates)):
+        coordinates = object_coordinates[i]
+        normal_cords = normalize_coordinates(coordinates, re_sized_image)
+        re_scaled_cords = rescale_coordinates(normal_cords, image)
+        patches[str(filename)+"_"+str(i+1)] = [normal_cords, re_scaled_cords]
+    patches = {filename:patches}
+    return patches
+
+
+#plotting individual patches
+def plot_patch(patch_name, cropped_image, cmap=None):
+    plt.figure(figsize=(10,8), dpi=150)
+    ax = plt.subplot()
+    plt.imshow(cropped_image, cmap=cmap)
+    ax.set_title(patch_name)
+    ax.axis('off')
+    plt.show()
+
+def crop_patch(coordinates, image):
+    x1, y1, x2, y2 = coordinates
+    cropped_image = image[x1:x2, y1:y2]
+    return cropped_image
+
+
+def process_image(path):
+    image, filename = read_tiff(path)
+    re_sized_image = resize_image(image)
+    resized_gray_img = convert_image_grayscale(re_sized_image)
+    labeled_segments = segment_images(resized_gray_img)
+    # plot_labeled_segments(labeled_segments, resized_gray_img)
+    object_coordinates = get_object_coordinates(labeled_segments)
+    patches = patches_dictionary(object_coordinates, re_sized_image, image, filename)
+    print(str(len(patches[filename]))+" patches")
+    cropped_images = []
+    for i in range(len(patches[filename])):
+        patch_name = str(filename)+"_"+str(i+1)
+        coordinates = patches[filename][patch_name][1]
+        cropped_image = crop_patch(coordinates, image)
+        cropped_images.append([patch_name,cropped_image])
+    return patches, cropped_images, filename
+# Display individual patches
+
+##########
 
 @app.route('/prediction/<filee>',methods=['POST','GET'])
 @torch.no_grad()
@@ -181,6 +294,22 @@ def pred_api(filee):
     curr_dir=os.getcwd()
     # print("path printing after",curr_dir)
     
+    ##############
+
+    # patches = patches_dictionary(object_coordinates, re_sized_image, image, filename)
+    patches, cropped_images, filename = process_image( f'{curr_dir}/test/{file}{exten}')
+    
+    for i in range(len(patches[filename])):
+        patch_number = i
+        image_meta = test[test.image_id==filename]
+        patch_name = str(filename)+"_"+str(patch_number)
+        patch = cropped_images[patch_number-1][1]
+        print(image_meta)
+        plot_patch(patch_name, patch)
+        print(patch_name,patch)
+        cv.imwrite(f'{patch_name}.png',patch)
+    
+    ##############
     # Step 1.3 Test Transform
     transform_test = Albu.Compose([Albu.Normalize(mean=[0.485, 0.456, 0.406], 
                                                 std=[0.229, 0.224, 0.225]),

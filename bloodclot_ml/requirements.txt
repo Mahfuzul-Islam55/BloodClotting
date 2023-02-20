@@ -13,3 +13,4 @@ albumentations
 Flask
 flask_cors
 requests
+imutils
