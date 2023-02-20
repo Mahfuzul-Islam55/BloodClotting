@@ -45,7 +45,13 @@ const FriendInfo = ({ currentfriend, activeUser, message }) => {
           ? message.map(
               (m, index) =>
                 m.message.image && (
-                  <img key={index} src={`./image/${m.message.image}`} alt="" />
+                  <a href={`./image/${m.message.image}`} download>
+                    <img
+                      key={index}
+                      src={`./image/${m.message.image}`}
+                      alt=""
+                    />
+                  </a>
                 )
             )
           : ""}

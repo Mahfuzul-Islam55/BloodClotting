@@ -17,6 +17,8 @@ import BloodTiff from "./BloodTiff";
 import BloodPng from "./BloodPng";
 import { RiGalleryLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import MlImageShow from "./assets/MlImageShow";
+import chatIcon from "./assets/chat.webp";
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -48,9 +50,9 @@ const RightSide = (props) => {
   const handleShowTiff = () => setShowTiff(!showTiff);
   const handleShowPng = () => setShowPng(!showPng);
 
-  const { mlData } = useSelector((state) => state.messenger);
+  const { mlData, mlDataSendSuccess } = useSelector((state) => state.messenger);
   console.log("Data from rightside: ", mlData);
-
+  console.log("mlDataSendSuccess ", mlDataSendSuccess);
   return (
     <div className="col-9">
       <div className="right-side">
@@ -78,9 +80,9 @@ const RightSide = (props) => {
                   </div>
                 </div>
                 <div className="icons">
-                  <div className="icon">
+                  {/* <div className="icon">
                     <IoCall />
-                  </div>
+                  </div> */}
                   <div className="icon" onClick={handlejoinRoom}>
                     <BsCameraVideoFill />
                   </div>
@@ -92,6 +94,7 @@ const RightSide = (props) => {
                   </div>
                 </div>
               </div>
+              {mlDataSendSuccess ? <MlImageShow mlData={mlData} /> : ""}
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
               {/* {showTiff && (
@@ -102,7 +105,7 @@ const RightSide = (props) => {
               )} */}
               {showPng && <BloodPng handleShowPng={handleShowPng} />}
 
-              {!show && !showCB && !showPng && (
+              {!show && !showCB && !showPng && !mlDataSendSuccess && (
                 <Message
                   typingMessage={typingMessage}
                   currentfriend={currentfriend}
@@ -129,7 +132,10 @@ const RightSide = (props) => {
                   <div onClick={handleShowCB} className="message-send-section">
                     <div className="file hover-attachment">
                       <div className="add-attachment">Chat with AI</div>
-                      <BsPlusCircle />
+                      <img
+                        src={chatIcon}
+                        style={{ width: "18px", height: "18px" }}
+                      />
                     </div>
                   </div>
                 )}
@@ -146,7 +152,7 @@ const RightSide = (props) => {
                         id="pic"
                         className="form-control"
                       />
-                      <label htmlFor="pic">
+                      <label htmlFor="pic" style={{ fontSize: "20px" }}>
                         <BsPlusCircleFill />
                       </label>
                     </div>
@@ -162,7 +168,7 @@ const RightSide = (props) => {
                 )}
               </div>
               {/*  */}
-              {!show && !showCB && !showPng && (
+              {!show && !showCB && !showPng && !mlDataSendSuccess && (
                 <MessageSend
                   ImageSend={ImageSend}
                   emojiSend={emojiSend}

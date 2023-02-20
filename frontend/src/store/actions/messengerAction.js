@@ -76,7 +76,7 @@ export const TiffMessageSend = (data) => async (dispatch) => {
   try {
     console.log(data);
     const response = await axios.post(
-      `http://127.0.0.1:5002/prediction/<${imageName}>`,
+      `http://127.0.0.1:5002/prediction/${imageName}`,
       imageData
     );
     console.log(response.data);
@@ -100,6 +100,17 @@ export const TiffMessageSend = (data) => async (dispatch) => {
       },
     });
     console.log(error);
+  }
+};
+
+export const MlSectionClose = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "ML_SECTION_CLOSE",
+      payload: {},
+    });
+  } catch (error) {
+    console.log(error.response.data);
   }
 };
 

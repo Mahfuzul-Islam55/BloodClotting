@@ -19,6 +19,7 @@ const messengerState = {
   themeMood: "",
   new_user_add: "",
   mlData: {},
+  mlDataSendSuccess: false,
 };
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -32,6 +33,7 @@ export const messengerReducer = (state = messengerState, action) => {
   if (type === ML_IMAGE_SEND_SUCCESS) {
     return {
       ...state,
+      mlDataSendSuccess: true,
       mlData: payload.message,
     };
   }
@@ -39,6 +41,12 @@ export const messengerReducer = (state = messengerState, action) => {
     return {
       ...state,
       mlData: payload.message,
+    };
+  }
+  if (type === "ML_SECTION_CLOSE") {
+    return {
+      ...state,
+      mlDataSendSuccess: false,
     };
   }
   if (type === FRIENDS_GET_SUCCESS) {
