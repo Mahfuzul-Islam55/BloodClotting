@@ -96,16 +96,16 @@ def tiff_to_png(test):
                                         order=('width-first'),
                                         keep_mask=None)
     # Apply Stain Color Normalization => Using Skimage
-        ihc_hed = rgb2hed(image)
-        null = np.zeros_like(ihc_hed[:, :, 0])
-        h = rescale_intensity(ihc_hed[:, :, 0], out_range=(0, 1),
-                      in_range=(0, np.percentile(ihc_hed[:, :, 0], 99)))
-        d = rescale_intensity(ihc_hed[:, :, 2], out_range=(0, 1),
-                      in_range=(0, np.percentile(ihc_hed[:, :, 2], 99)))
-        # Cast the two channels into an RGB image, as the blue and green channels
-        # respectively
-        image = np.dstack((null, d, h))#.transpose(2,0,1).astype(np.uint16)
-        print(image.shape)
+        # ihc_hed = rgb2hed(image)
+        # null = np.zeros_like(ihc_hed[:, :, 0])
+        # h = rescale_intensity(ihc_hed[:, :, 0], out_range=(0, 1),
+        #               in_range=(0, np.percentile(ihc_hed[:, :, 0], 99)))
+        # d = rescale_intensity(ihc_hed[:, :, 2], out_range=(0, 1),
+        #               in_range=(0, np.percentile(ihc_hed[:, :, 2], 99)))
+        # # Cast the two channels into an RGB image, as the blue and green channels
+        # # respectively
+        # image = np.dstack((null, d, h))#.transpose(2,0,1).astype(np.uint16)
+        # print(image.shape)
 
 
         skimage.io.imsave(f'{curr_dir}/test/{img_id}.png', image)
@@ -389,10 +389,30 @@ def stain():
     ihc_h = hed2rgb(np.stack((ihc_hed[:, :, 0], null, null), axis=-1))
     ihc_e = hed2rgb(np.stack((null, ihc_hed[:, :, 1], null), axis=-1))
     ihc_d = hed2rgb(np.stack((null, null, ihc_hed[:, :, 2]), axis=-1))
+    # cv.imshow(ihc_e)
+    
+    # fig, axes = plt.subplots(1,4,figsize=(10,8),sharex=True,sharey=True)
+    # ax = axes.ravel()
+    
+    # ax[1].imshow(ihc_h)
+    # ax[1].set_title("Hematoxylin")
+    # ax[2].imshow(ihc_e)
+    # ax[2].set_title("Eosin")
+    # ax[3].imshow(ihc_d)
+    # ax[3].set_title("DAB")
+    # for a in ax.ravel():
+    #     a.axis('off')
+    # fig.tight_layout()
+    # # plt.show(ihc_h)
+    # plt.show()
 
-    cv.imwrite(f'{os.getcwd()}/test/img_h.png',ihc_h)
-    cv.imwrite(f'{os.getcwd()}/test/img_e.png',ihc_e)
-    cv.imwrite(f'{os.getcwd()}/test/img_d.png',ihc_d)
+    cur_dir=os.getcwd()
+    print(cur_dir ," -------------------------curdir")
+    print(type(ihc_h) ," -------------------------h type")
+    print(type(img) ," -------------------------img")
+    skimage.io.imsave(f'{cur_dir}/test/img_h.png', ihc_h)
+    skimage.io.imsave(f'{cur_dir}/test/img_e.png', ihc_e)
+    skimage.io.imsave(f'{cur_dir}/test/img_d.png', ihc_d)
     
    
     # Rescale hematoxylin and DAB channels and give them a fluorescence look
@@ -402,7 +422,8 @@ def stain():
     # Cast the two channels into an RGB image, as the blue and green channels
     # respectively
     zdh = np.dstack((null, d, h))
-    cv.imwrite(f'{os.getcwd()}/test/img_z.png',zdh)
+    skimage.io.imsave(f'{cur_dir}/test/img_z.png', zdh)
+    
     
     ihc_h = f'{os.getcwd()}/test/img_h.PNG'
     # ihc_h=cv.imread(f'{img_path}')
