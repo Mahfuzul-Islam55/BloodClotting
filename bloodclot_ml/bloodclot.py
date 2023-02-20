@@ -268,6 +268,14 @@ def process_image(path):
 # Display individual patches
 
 ##########
+def encode(path):
+    pil_img = Image.open(path, mode='r') # reads the PIL image
+    byte_arr = io.BytesIO()
+    pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
+    return encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+    
+
+
 
 @app.route('/prediction/<filee>',methods=['POST','GET'])
 @torch.no_grad()
@@ -293,6 +301,9 @@ def pred_api(filee):
     os.chdir('../')
     curr_dir=os.getcwd()
     # print("path printing after",curr_dir)
+    #1.3 preprocessing tif to png
+    test = {'image_id':[file],'center_id':[1],'patient_id':[2],'image_num':[1]}
+    test =pd.DataFrame(test)
     
     ##############
 
@@ -305,9 +316,9 @@ def pred_api(filee):
         patch_name = str(filename)+"_"+str(patch_number)
         patch = cropped_images[patch_number-1][1]
         print(image_meta)
-        plot_patch(patch_name, patch)
+        # plot_patch(patch_name, patch)
         print(patch_name,patch)
-        cv.imwrite(f'{patch_name}.png',patch)
+        # cv.imwrite(f'{patch_name}.png',patch)
     
     ##############
     # Step 1.3 Test Transform
@@ -315,10 +326,7 @@ def pred_api(filee):
                                                 std=[0.229, 0.224, 0.225]),
                                 ToTensorV2()])
    
-    #1.3 preprocessing tif to png
-    test = {'image_id':[file],'center_id':[1],'patient_id':[2],'image_num':[1]}
-    test =pd.DataFrame(test)
-    
+   
     #tiff_to_png(test)
     if(exten=='.tif'):
         tiff_to_png(test)
@@ -354,10 +362,7 @@ def pred_api(filee):
     curr_dir=os.getcwd()
     # print("path printing last",curr_dir,"     ",img_path)
     # print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
-    pil_img = Image.open(img_path, mode='r') # reads the PIL image
-    byte_arr = io.BytesIO()
-    pil_img.save(byte_arr, format='PNG') # convert the PIL image to byte array
-    encoded_img = encodebytes(byte_arr.getvalue()).decode('ascii') # encode as base64
+    encoded_img = encode(img_path) # encode as base64
     ce=float(preds[:,0])
     laa= float(preds[:,1]) 
 
@@ -371,6 +376,59 @@ def pred_api(filee):
 
     return jsonify(pred_json)
 
+@app.route('/stain',methods=['POST','GET'])
+def stain():
+    file='007'
+    img_path = f'{os.getcwd()}/test/{file}.PNG'
+    img=cv.imread(f'{img_path}')
+    
+    # Convert rgb2hed
+    ihc_hed = rgb2hed(img)
+    # Separate hed channels
+    null = np.zeros_like(ihc_hed[:, :, 0])
+    ihc_h = hed2rgb(np.stack((ihc_hed[:, :, 0], null, null), axis=-1))
+    ihc_e = hed2rgb(np.stack((null, ihc_hed[:, :, 1], null), axis=-1))
+    ihc_d = hed2rgb(np.stack((null, null, ihc_hed[:, :, 2]), axis=-1))
+
+    cv.imwrite(f'{os.getcwd()}/test/img_h.png',ihc_h)
+    cv.imwrite(f'{os.getcwd()}/test/img_e.png',ihc_e)
+    cv.imwrite(f'{os.getcwd()}/test/img_d.png',ihc_d)
+    
+   
+    # Rescale hematoxylin and DAB channels and give them a fluorescence look
+    h = rescale_intensity(ihc_hed[:, :, 0], out_range=(0, 1), in_range=(0, np.percentile(ihc_hed[:, :, 0], 95)))
+    d = rescale_intensity(ihc_hed[:, :, 2], out_range=(0, 1), in_range=(0, np.percentile(ihc_hed[:, :, 2], 95)))
+
+    # Cast the two channels into an RGB image, as the blue and green channels
+    # respectively
+    zdh = np.dstack((null, d, h))
+    cv.imwrite(f'{os.getcwd()}/test/img_z.png',zdh)
+    
+    ihc_h = f'{os.getcwd()}/test/img_h.PNG'
+    # ihc_h=cv.imread(f'{img_path}')
+    ihc_e = f'{os.getcwd()}/test/img_e.PNG'
+    # ihc_e=cv.imread(f'{img_path}')
+    ihc_d = f'{os.getcwd()}/test/img_d.PNG'
+    # ihc_d=cv.imread(f'{img_path}')
+    zdh = f'{os.getcwd()}/test/img_z.PNG'
+    # zdh=cv.imread(f'{img_path}')
+
+    encoded_img_h = encode(ihc_h) # encode as base64
+    encoded_img_e = encode(ihc_e) # encode as base64
+    encoded_img_d = encode(ihc_d) # encode as base64
+    encoded_img_zdh = encode(zdh) # encode as base64
+    
+
+    stain_json={       
+       'img_h' : encoded_img_h ,
+       'img_e' : encoded_img_e ,
+       'img_d': encoded_img_d,
+       'img_flu': encoded_img_zdh,
+              
+    }
+
+    return jsonify(stain_json)
+    
 if __name__ == "__main__":
     app.run(port=5002)
 
