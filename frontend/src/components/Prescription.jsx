@@ -50,50 +50,60 @@ export default function Prescription({ handleShow }) {
         ref={ref}
         style={{
           borderRadius: "5px",
-          backgroundColor: "#f2f2f2",
+          backgroundColor: "#fff",
           padding: "20px",
         }}
       >
-        <div className="card-header">
-          <h3>Prescription</h3>
-          <div onClick={() => handleShow()} style={{ cursor: "pointer" }}>
+        <div className="card-header-prescription">
+          <div
+            onClick={() => handleShow()}
+            style={{ cursor: "pointer", color: "black", marginLeft: "95%" }}
+          >
             <AiFillCloseCircle />
           </div>
         </div>
-        <label for="fname">First Name</label>
-        <input
-          style={{
-            width: "100%",
-            padding: "12px 20px",
-            margin: "8px 0",
-            display: "inline-block",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxSizing: "border-box",
-          }}
-          type="text"
-          id="fname"
-          name="firstname"
-          placeholder="Your name.."
-        />
+        <div className="prescription-grid">
+          <label
+            for="fname"
+            style={{ color: "black", fontSize: "18px", marginRight: "5px" }}
+          >
+            First Name
+          </label>
+          <input
+            style={{
+              width: "250px",
+              padding: "12px 20px",
+              margin: "8px 0",
+              display: "inline-block",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxSizing: "border-box",
+            }}
+            type="text"
+            id="fname"
+            name="firstname"
+            placeholder="Your name.."
+          />
 
-        <label for="lname">Last Name</label>
-        <input
-          style={{
-            width: "100%",
-            padding: "12px 20px",
-            margin: "8px 0",
-            display: "inline-block",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            boxSizing: "border-box",
-          }}
-          type="text"
-          id="fname"
-          name="firstname"
-          placeholder="Your name.."
-        />
-        <div className="form-group">
+          <label for="lname">Last Name</label>
+          <input
+            style={{
+              width: "100%",
+              padding: "12px 20px",
+              margin: "8px 0",
+              display: "inline-block",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              boxSizing: "border-box",
+            }}
+            type="text"
+            id="fname"
+            name="firstname"
+            placeholder="Your name.."
+          />
+        </div>
+
+        <div>
           <Pdf targetRef={ref} filename="code-example.pdf">
             {({ toPdf }) => (
               <button onClick={toPdf}>

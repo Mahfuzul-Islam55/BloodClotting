@@ -35,6 +35,8 @@ import subprocess
 import io
 from base64 import encodebytes
 from PIL import Image
+from pathlib import Path
+
 app = Flask(__name__)
 
 CORS(app)
@@ -154,21 +156,26 @@ def predict(model, loader_test):
 
 
 
-@app.route('/prediction/<file>',methods=['POST','GET'])
+@app.route('/prediction/<filee>',methods=['POST','GET'])
 @torch.no_grad()
-def pred_api(file):
+def pred_api(filee):
     
     test_image = request.get_data()
     curr_dir=os.getcwd()
+
+    # curr_dir='E:/CV/new_bloodc/BloodClotting/bloodclot_ml'
     print("path printing pre",curr_dir)
-    exten='tif'
+    exten=Path(filee).suffix
+    file='007'
+    print("check ------",str(type(os.path.splitext(filee)[0])))
+    print("incomping file----------",file,exten)
     # saving incoming
     os.chdir('test')
     curr_dir=os.getcwd()
     # print("path printing in ",curr_dir)
-    
-    subprocess.run(['del','-r', '*'],shell=True)
-    with open(f'{file}.{exten}', "wb") as code:
+    # file='007'
+    # subprocess.run(['del','/f','/q', '*'],shell=True)
+    with open(f'{file}{exten}', "wb") as code:
         code.write(test_image)
     os.chdir('../')
     curr_dir=os.getcwd()
@@ -184,7 +191,8 @@ def pred_api(file):
     test =pd.DataFrame(test)
     
     #tiff_to_png(test)
-    tiff_to_png(test)
+    if(exten=='.tif'):
+        tiff_to_png(test)
     #img_path = f'/test/{img_id}.tif'
     img_path = f'{curr_dir}/test/{file}.PNG'
 
