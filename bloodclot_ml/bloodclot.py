@@ -74,46 +74,6 @@ torch.backends.cudnn.benchmark = False # benchmark function 해제
 torch.backends.cudnn.enabled = False # cudnn 사용 해제
 device = torch.device('cpu')
 
-def tiff_to_png(test):
-    # Demo Test Data Set Convert (Tiff to Png)
-    image_scalar = 1024
-    seam_carving.carve.MAX_MEAN_ENERGY = 10.0
-    # fig, axes = plt.subplots(2, 2, figsize=(7, 6), sharex=True, sharey=True)
-    # ax = axes.ravel()
-    for i in tqdm(range(test.shape[0])):        
-    # Remove Background White Space
-        curr_dir=os.getcwd()
-        img_id = test.iloc[i].image_id
-        img_path = f'{curr_dir}/test/{img_id}.tif'
-        
-        image = rasterio.open(img_path)
-        image = image.read(out_shape=(image.count, int(image_scalar), int(image_scalar)),
-                                 resampling=Resampling.bilinear).transpose(1,2,0)
-        image_h, image_w, _ = image.shape
-        print("test shape ",test.shape,"image shape ",image.shape)
-        image = seam_carving.resize(image, (image_w-512, image_h-512),
-                                        energy_mode='backward',
-                                        order=('width-first'),
-                                        keep_mask=None)
-    # Apply Stain Color Normalization => Using Skimage
-        # ihc_hed = rgb2hed(image)
-        # null = np.zeros_like(ihc_hed[:, :, 0])
-        # h = rescale_intensity(ihc_hed[:, :, 0], out_range=(0, 1),
-        #               in_range=(0, np.percentile(ihc_hed[:, :, 0], 99)))
-        # d = rescale_intensity(ihc_hed[:, :, 2], out_range=(0, 1),
-        #               in_range=(0, np.percentile(ihc_hed[:, :, 2], 99)))
-        # # Cast the two channels into an RGB image, as the blue and green channels
-        # # respectively
-        # image = np.dstack((null, d, h))#.transpose(2,0,1).astype(np.uint16)
-        # print(image.shape)
-
-
-        skimage.io.imsave(f'{curr_dir}/test/{img_id}.png', image)
-        del image
-        gc.collect()
-        print(" success   ------------------------")
-        return 
-
 # Step 1.2.2 Definition Data Set Class
 class ImageDataset(Dataset):
     def __init__(self, df, img_dir='./', transform=None, is_test=True):
@@ -257,7 +217,7 @@ def process_image(path):
     # plot_labeled_segments(labeled_segments, resized_gray_img)
     object_coordinates = get_object_coordinates(labeled_segments)
     patches = patches_dictionary(object_coordinates, re_sized_image, image, filename)
-    print(str(len(patches[filename]))+" patches")
+    # print(str(len(patches[filename]))+" patches")
     cropped_images = []
     for i in range(len(patches[filename])):
         patch_name = str(filename)+"_"+str(i+1)
@@ -285,40 +245,34 @@ def pred_api(filee):
     curr_dir=os.getcwd()
 
     # curr_dir='E:/CV/new_bloodc/BloodClotting/bloodclot_ml'
-    print("path printing pre",curr_dir)
+    # print("path printing pre",curr_dir)
     exten=Path(filee).suffix
     file='007'
-    print("check ------",str(type(os.path.splitext(filee)[0])))
-    print("incomping file----------",file,exten)
     # saving incoming
     os.chdir('test')
     curr_dir=os.getcwd()
-    # print("path printing in ",curr_dir)
-    # file='007'
     # subprocess.run(['del','/f','/q', '*'],shell=True)
     with open(f'{file}{exten}', "wb") as code:
         code.write(test_image)
     os.chdir('../')
     curr_dir=os.getcwd()
-    # print("path printing after",curr_dir)
     #1.3 preprocessing tif to png
     test = {'image_id':[file],'center_id':[1],'patient_id':[2],'image_num':[1]}
     test =pd.DataFrame(test)
     
     ##############
 
-    # patches = patches_dictionary(object_coordinates, re_sized_image, image, filename)
     patches, cropped_images, filename = process_image( f'{curr_dir}/test/{file}{exten}')
     
     for i in range(len(patches[filename])):
         patch_number = i
         image_meta = test[test.image_id==filename]
-        patch_name = str(filename)+"_"+str(patch_number)
+        if i==0:    
+            patch_name = str(filename)
+        else:    
+            patch_name = str(filename)+"_"+str(patch_number)
         patch = cropped_images[patch_number-1][1]
-        print(image_meta)
-        # plot_patch(patch_name, patch)
-        print(patch_name,patch)
-        # cv.imwrite(f'{patch_name}.png',patch)
+        cv.imwrite(f'{curr_dir}/test/{patch_name}.png',patch)
     
     ##############
     # Step 1.3 Test Transform
@@ -326,11 +280,6 @@ def pred_api(filee):
                                                 std=[0.229, 0.224, 0.225]),
                                 ToTensorV2()])
    
-   
-    #tiff_to_png(test)
-    if(exten=='.tif'):
-        tiff_to_png(test)
-    #img_path = f'/test/{img_id}.tif'
     img_path = f'{curr_dir}/test/{file}.PNG'
 
     # 1.4 Test Data Set
@@ -352,7 +301,7 @@ def pred_api(filee):
     efficient_net = models.efficientnet_b0()
     efficient_net.classifier = nn.Linear(1280,2)
     efficient_net.load_state_dict(torch.load('./model/new_efficient_model_state_dict.pth', map_location=torch.device('cpu')))
-    print(efficient_net.classifier)
+    # print(efficient_net.classifier)
 
     efficient_net = efficient_net.to(device)
     model.append(efficient_net)
@@ -360,8 +309,6 @@ def pred_api(filee):
     # Step 3.8.6 Submission
     preds, ids = predict(model[0], loader_test)
     curr_dir=os.getcwd()
-    # print("path printing last",curr_dir,"     ",img_path)
-    # print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
     encoded_img = encode(img_path) # encode as base64
     ce=float(preds[:,0])
     laa= float(preds[:,1]) 
@@ -389,27 +336,9 @@ def stain():
     ihc_h = hed2rgb(np.stack((ihc_hed[:, :, 0], null, null), axis=-1))
     ihc_e = hed2rgb(np.stack((null, ihc_hed[:, :, 1], null), axis=-1))
     ihc_d = hed2rgb(np.stack((null, null, ihc_hed[:, :, 2]), axis=-1))
-    # cv.imshow(ihc_e)
-    
-    # fig, axes = plt.subplots(1,4,figsize=(10,8),sharex=True,sharey=True)
-    # ax = axes.ravel()
-    
-    # ax[1].imshow(ihc_h)
-    # ax[1].set_title("Hematoxylin")
-    # ax[2].imshow(ihc_e)
-    # ax[2].set_title("Eosin")
-    # ax[3].imshow(ihc_d)
-    # ax[3].set_title("DAB")
-    # for a in ax.ravel():
-    #     a.axis('off')
-    # fig.tight_layout()
-    # # plt.show(ihc_h)
-    # plt.show()
+   
 
     cur_dir=os.getcwd()
-    print(cur_dir ," -------------------------curdir")
-    print(type(ihc_h) ," -------------------------h type")
-    print(type(img) ," -------------------------img")
     skimage.io.imsave(f'{cur_dir}/test/img_h.png', ihc_h)
     skimage.io.imsave(f'{cur_dir}/test/img_e.png', ihc_e)
     skimage.io.imsave(f'{cur_dir}/test/img_d.png', ihc_d)
@@ -426,13 +355,9 @@ def stain():
     
     
     ihc_h = f'{os.getcwd()}/test/img_h.PNG'
-    # ihc_h=cv.imread(f'{img_path}')
     ihc_e = f'{os.getcwd()}/test/img_e.PNG'
-    # ihc_e=cv.imread(f'{img_path}')
     ihc_d = f'{os.getcwd()}/test/img_d.PNG'
-    # ihc_d=cv.imread(f'{img_path}')
     zdh = f'{os.getcwd()}/test/img_z.PNG'
-    # zdh=cv.imread(f'{img_path}')
 
     encoded_img_h = encode(ihc_h) # encode as base64
     encoded_img_e = encode(ihc_e) # encode as base64
