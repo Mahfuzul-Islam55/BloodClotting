@@ -20,6 +20,7 @@ const messengerState = {
   new_user_add: "",
   mlData: {},
   mlDataSendSuccess: false,
+  StainImage: {},
 };
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -47,6 +48,18 @@ export const messengerReducer = (state = messengerState, action) => {
     return {
       ...state,
       mlDataSendSuccess: false,
+    };
+  }
+  if (type === "SHOW_STAIN_IMAGE") {
+    return {
+      ...state,
+      StainImage: payload.message,
+    };
+  }
+  if (type === "STAIN_IMAGE_FAILURE") {
+    return {
+      ...state,
+      StainImage: payload.message,
     };
   }
   if (type === FRIENDS_GET_SUCCESS) {

@@ -423,7 +423,7 @@ def stain():
        'img_h' : encoded_img_h ,
        'img_e' : encoded_img_e ,
        'img_d': encoded_img_d,
-       'img_flu': encoded_img_zdh,
+       'img_z': encoded_img_zdh,
               
     }
 
