@@ -16,9 +16,10 @@ import { useHistory } from "react-router-dom";
 import BloodTiff from "./BloodTiff";
 import BloodPng from "./BloodPng";
 import { RiGalleryLine } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MlImageShow from "./assets/MlImageShow";
 import chatIcon from "./assets/chat.webp";
+import { ShowStainImage } from "../store/actions/messengerAction";
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -48,7 +49,11 @@ const RightSide = (props) => {
   const [showTiff, setShowTiff] = useState(false);
   const [showPng, setShowPng] = useState(false);
   const handleShowTiff = () => setShowTiff(!showTiff);
-  const handleShowPng = () => setShowPng(!showPng);
+  const dispatch = useDispatch();
+  const handleShowPng = () => {
+    setShowPng(!showPng);
+    dispatch(ShowStainImage());
+  };
 
   const { mlData, mlDataSendSuccess } = useSelector((state) => state.messenger);
   console.log("Data from rightside: ", mlData);
@@ -161,7 +166,7 @@ const RightSide = (props) => {
                 {!showPng && (
                   <div onClick={handleShowPng} className="message-send-section">
                     <div className="file hover-attachment">
-                      <div className="add-attachment">Submit Png</div>
+                      <div className="add-attachment">Show Stain Image</div>
                       <BsPlusCircle />
                     </div>
                   </div>

@@ -102,6 +102,29 @@ export const TiffMessageSend = (data) => async (dispatch) => {
     console.log(error);
   }
 };
+export const ShowStainImage = () => async (dispatch) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:5002/stain`);
+    console.log(response);
+    dispatch({
+      type: "SHOW_STAIN_IMAGE",
+      payload: {
+        message: response.data,
+      },
+    });
+  } catch (error) {
+    console.log(
+      "error console cause response not do proper work from localhost 5003"
+    );
+    dispatch({
+      type: "STAIN_IMAGE_FAILURE",
+      payload: {
+        message: "Something is wrong.Please try again.",
+      },
+    });
+    console.log(error);
+  }
+};
 
 export const MlSectionClose = () => async (dispatch) => {
   try {
