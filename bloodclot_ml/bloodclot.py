@@ -249,6 +249,7 @@ def pred_api(filee):
     exten=Path(filee).suffix
     file='007'
     # saving incoming
+    print("incomping file----------",filee)
     os.chdir('test')
     curr_dir=os.getcwd()
     # subprocess.run(['del','/f','/q', '*'],shell=True)
@@ -285,7 +286,7 @@ def pred_api(filee):
     # 1.4 Test Data Set
     img_dir = './test'
     dataset_test = ImageDataset(test, img_dir=img_dir, transform=transform_test)
-  
+    print("transformation done")
     g = torch.Generator()
     g.manual_seed(0)
 
@@ -301,15 +302,17 @@ def pred_api(filee):
     efficient_net = models.efficientnet_b0()
     efficient_net.classifier = nn.Linear(1280,2)
     efficient_net.load_state_dict(torch.load('./model/new_efficient_model_state_dict.pth', map_location=torch.device('cpu')))
-    # print(efficient_net.classifier)
-
+    print(efficient_net.classifier)
+    print("model loaded")
     efficient_net = efficient_net.to(device)
     model.append(efficient_net)
     
     # Step 3.8.6 Submission
     preds, ids = predict(model[0], loader_test)
     curr_dir=os.getcwd()
+    print( "CE : ",preds[:,0], "LAA : ",preds[:,1])
     encoded_img = encode(img_path) # encode as base64
+    print("precticted image encode complete")
     ce=float(preds[:,0])
     laa= float(preds[:,1]) 
 
@@ -328,7 +331,7 @@ def stain():
     file='007'
     img_path = f'{os.getcwd()}/test/{file}.PNG'
     img=cv.imread(f'{img_path}')
-    
+    print("working on stain")
     # Convert rgb2hed
     ihc_hed = rgb2hed(img)
     # Separate hed channels
@@ -353,6 +356,7 @@ def stain():
     zdh = np.dstack((null, d, h))
     skimage.io.imsave(f'{cur_dir}/test/img_z.png', zdh)
     
+    print("preparaing stain image")
     
     ihc_h = f'{os.getcwd()}/test/img_h.PNG'
     ihc_e = f'{os.getcwd()}/test/img_e.PNG'
@@ -363,6 +367,7 @@ def stain():
     encoded_img_e = encode(ihc_e) # encode as base64
     encoded_img_d = encode(ihc_d) # encode as base64
     encoded_img_zdh = encode(zdh) # encode as base64
+    print("encode complete")
     
 
     stain_json={       
