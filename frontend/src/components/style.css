@@ -1,14 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@100;300;400;500;700;800;900&display=swap");
 
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Alegreya Sans", sans-serif;
-}
-form {
+} */
+.myForm {
   width: 50%;
-  max-width: 400px;
+
   margin: 0 auto;
   padding: 10px;
   background: #81a1d0;
@@ -16,6 +16,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto;
 }
 
 .textarea {
@@ -44,7 +45,7 @@ button {
   transition: 0.5;
 }
 .sbtn:hover {
-  background: red;
+  background: rgb(46, 45, 45);
 }
 
 form img {

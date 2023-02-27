@@ -21,6 +21,8 @@ const messengerState = {
   mlData: {},
   mlDataSendSuccess: false,
   StainImage: {},
+  showLoading: false,
+  loadingMessage: "",
 };
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -35,7 +37,15 @@ export const messengerReducer = (state = messengerState, action) => {
     return {
       ...state,
       mlDataSendSuccess: true,
+      showLoading: false,
       mlData: payload.message,
+    };
+  }
+  if (type === "SHOW_LOADING") {
+    return {
+      ...state,
+      showLoading: true,
+      loadingMessage: payload.message,
     };
   }
   if (type === ML_IMAGE_SEND_FAILURE) {
