@@ -9,13 +9,13 @@ const BloodPng = ({ handleShowPng }) => {
   
   return (
     <div>
-      <div style={{ cursor: "pointer",overflow:"hidden" }}>
+      <div onClick={handleShowPng} style={{ cursor: "pointer",overflow:"hidden" }}>
         <AiFillCloseCircle />
       </div>
       <h3
         style={{
           display: "flex",
-          color: "#fff",
+          color: "#000",
           justifyContent: "center",
           fontSize: "25px",
           marginBottom: "20px",

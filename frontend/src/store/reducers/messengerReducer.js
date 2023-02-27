@@ -23,6 +23,7 @@ const messengerState = {
   StainImage: {},
   showLoading: false,
   loadingMessage: "",
+  showStain:false,
 };
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -63,6 +64,8 @@ export const messengerReducer = (state = messengerState, action) => {
   if (type === "SHOW_STAIN_IMAGE") {
     return {
       ...state,
+      showStain:true,
+      showLoading:false,
       StainImage: payload.message,
     };
   }

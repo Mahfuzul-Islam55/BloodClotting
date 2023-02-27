@@ -66,10 +66,12 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                       <div className="fd-text">
                         <p className="message-text fd">
                           {m.message.text === "" ? (
+                            <a href={`/image/${m.message.image}`} download>
                             <img
                               src={`./image/${m.message.image}`}
                               alt="image"
                             />
+                            </a>
                           ) : (
                             m.message.text
                           )}
