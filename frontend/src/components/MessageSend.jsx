@@ -77,7 +77,7 @@ const MessageSend = ({
           placeholder="Aa"
           value={newMessage}
           className="form-control"
-          style={{ color: "white" }}
+          style={{ color: "#000" }}
         />
         <label htmlFor="emoji">🙂</label>
       </div>

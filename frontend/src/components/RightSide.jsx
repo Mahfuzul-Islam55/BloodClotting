@@ -24,6 +24,8 @@ import MlImageShow from "./assets/MlImageShow";
 import chatIcon from "./assets/chat.webp";
 import { ShowStainImage, ShowLoading } from "../store/actions/messengerAction";
 import Loading from "./assets/Loading";
+import report from './assets/report.png';
+import search_stain from './assets/search_stain.png'
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -59,11 +61,13 @@ const RightSide = (props) => {
   const dispatch = useDispatch();
   const handleShowPng = () => {
     setShowPng(!showPng);
+    dispatch(ShowLoading());
     dispatch(ShowStainImage());
   };
 
-  const { mlData, mlDataSendSuccess, showLoading, loadingMessage } =
+  const { mlData, mlDataSendSuccess, showLoading, loadingMessage,showStain } =
     useSelector((state) => state.messenger);
+    const {myInfo}=useSelector((state)=>state.auth);
   console.log("Data from rightside: ", mlData);
   console.log("mlDataSendSuccess ", mlDataSendSuccess);
   return (
@@ -96,6 +100,7 @@ const RightSide = (props) => {
                   {/* <div className="icon">
                     <IoCall />
                   </div> */}
+                  
                   <div className="icon" onClick={handlejoinRoom}>
                     <BsCameraVideoFill />
                   </div>
@@ -108,11 +113,12 @@ const RightSide = (props) => {
                 </div>
               </div>
               {mlDataSendSuccess ? <MlImageShow mlData={mlData} /> : ""}
-              {!mlDataSendSuccess && showLoading ? (
+              {!mlDataSendSuccess && showLoading && !showCB ? (
                 <Loading loadingMessage={loadingMessage} />
               ) : (
                 ""
               )}
+              
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
               {/* {showTiff && (
@@ -121,7 +127,7 @@ const RightSide = (props) => {
                   TiffSend={TiffSend}
                 />
               )} */}
-              {showPng && <BloodPng handleShowPng={handleShowPng} />}
+              {showPng && showStain && <BloodPng handleShowPng={handleShowPng} />}
 
               {!show &&
                 !showCB &&
@@ -142,7 +148,7 @@ const RightSide = (props) => {
                   marginRight: "10px",
                 }}
               >
-                {!show && (
+                {!show && myInfo.doctor=="true" && (
                   <div onClick={handleShow} className="message-send-section">
                     <div className="file hover-attachment">
                       <div className="add-attachment">Add Prescription</div>
@@ -161,7 +167,7 @@ const RightSide = (props) => {
                     </div>
                   </div>
                 )}
-                {
+                {  myInfo.doctor=="true" && 
                   <div
                     onClick={handleShowTiff}
                     className="message-send-section"
@@ -175,18 +181,17 @@ const RightSide = (props) => {
                         className="form-control"
                       />
                       <label htmlFor="pic" style={{ fontSize: "20px" }}>
-                        {/* <TbReportMedical /> */}
-                        <BsPlusCircleFill />
+                     
+                        <img style={{width:"20px",height:"20px"}} src={report}/>
                       </label>
                     </div>
                   </div>
                 }
-                {!showPng && (
+                {!showPng &&  myInfo.doctor=="true" &&  (
                   <div onClick={handleShowPng} className="message-send-section">
                     <div className="file hover-attachment">
                       <div className="add-attachment">Show Stain Image</div>
-                      <BsPlusCircle />
-                      {/* <MdOutlineImageSearch /> */}
+                      <img style={{width:"20px",height:"20px"}} src={search_stain}/>
                     </div>
                   </div>
                 )}

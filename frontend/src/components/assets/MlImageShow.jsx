@@ -19,7 +19,7 @@ function MlImageShow({ mlData }) {
       <h3
         style={{
           display: "flex",
-          color: "#fff",
+          color: "#000000",
           justifyContent: "center",
           fontSize: "25px",
           marginBottom: "20px",
@@ -42,7 +42,7 @@ function MlImageShow({ mlData }) {
       <h3
         style={{
           display: "flex",
-          color: "#fff",
+          color: "#000000",
           justifyContent: "center",
           fontSize: "20px",
           marginBottom: "20px",
@@ -55,7 +55,7 @@ function MlImageShow({ mlData }) {
       <h3
         style={{
           display: "flex",
-          color: "#fff",
+          color: "#000000",
           justifyContent: "center",
           fontSize: "20px",
           marginBottom: "20px",

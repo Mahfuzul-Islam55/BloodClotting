@@ -5,7 +5,7 @@ function Loading({ loadingMessage }) {
   useEffect(() => {
     setInterval(() => {
       setIsDisplayed(true);
-    }, 3000);
+    }, 2000);
   }, []);
   return (
     <div>
@@ -34,7 +34,7 @@ function Loading({ loadingMessage }) {
               display: "flex",
               justifyContent: "center",
               marginTop: "10px",
-              color: "#fff",
+              color: "#000000",
             }}
           >
             {loadingMessage}

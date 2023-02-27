@@ -245,6 +245,7 @@ def pred_api(filee):
     curr_dir=os.getcwd()
 
     # curr_dir='E:/CV/new_bloodc/BloodClotting/bloodclot_ml'
+    curr_dir='C:/Users/BS783/Downloads/github_per/BloodClotting/bloodclot_ml'
     # print("path printing pre",curr_dir)
     exten=Path(filee).suffix
     file='007'
