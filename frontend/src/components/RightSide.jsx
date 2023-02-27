@@ -4,9 +4,12 @@ import {
   BsPlusCircle,
   BsPlusCircleFill,
 } from "react-icons/bs";
+import { FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { IoCall } from "react-icons/io5";
 import FriendInfo from "./FriendInfo";
+// import { TbReportMedical } from "react-icons/tb";
+// import { MdOutlineImageSearch } from "react-icons/*";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
 import Prescription from "./Prescription";
@@ -19,7 +22,8 @@ import { RiGalleryLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import MlImageShow from "./assets/MlImageShow";
 import chatIcon from "./assets/chat.webp";
-import { ShowStainImage } from "../store/actions/messengerAction";
+import { ShowStainImage, ShowLoading } from "../store/actions/messengerAction";
+import Loading from "./assets/Loading";
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -48,14 +52,18 @@ const RightSide = (props) => {
 
   const [showTiff, setShowTiff] = useState(false);
   const [showPng, setShowPng] = useState(false);
-  const handleShowTiff = () => setShowTiff(!showTiff);
+  const handleShowTiff = () => {
+    setShowTiff(!showTiff);
+    dispatch(ShowLoading());
+  };
   const dispatch = useDispatch();
   const handleShowPng = () => {
     setShowPng(!showPng);
     dispatch(ShowStainImage());
   };
 
-  const { mlData, mlDataSendSuccess } = useSelector((state) => state.messenger);
+  const { mlData, mlDataSendSuccess, showLoading, loadingMessage } =
+    useSelector((state) => state.messenger);
   console.log("Data from rightside: ", mlData);
   console.log("mlDataSendSuccess ", mlDataSendSuccess);
   return (
@@ -100,6 +108,11 @@ const RightSide = (props) => {
                 </div>
               </div>
               {mlDataSendSuccess ? <MlImageShow mlData={mlData} /> : ""}
+              {!mlDataSendSuccess && showLoading ? (
+                <Loading loadingMessage={loadingMessage} />
+              ) : (
+                ""
+              )}
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
               {/* {showTiff && (
@@ -110,14 +123,18 @@ const RightSide = (props) => {
               )} */}
               {showPng && <BloodPng handleShowPng={handleShowPng} />}
 
-              {!show && !showCB && !showPng && !mlDataSendSuccess && (
-                <Message
-                  typingMessage={typingMessage}
-                  currentfriend={currentfriend}
-                  scrollRef={scrollRef}
-                  message={message}
-                />
-              )}
+              {!show &&
+                !showCB &&
+                !showPng &&
+                !mlDataSendSuccess &&
+                !showLoading && (
+                  <Message
+                    typingMessage={typingMessage}
+                    currentfriend={currentfriend}
+                    scrollRef={scrollRef}
+                    message={message}
+                  />
+                )}
               <div
                 style={{
                   display: "flex",
@@ -129,7 +146,7 @@ const RightSide = (props) => {
                   <div onClick={handleShow} className="message-send-section">
                     <div className="file hover-attachment">
                       <div className="add-attachment">Add Prescription</div>
-                      <BsPlusCircle />
+                      <FaPrescriptionBottleAlt />
                     </div>
                   </div>
                 )}
@@ -158,6 +175,7 @@ const RightSide = (props) => {
                         className="form-control"
                       />
                       <label htmlFor="pic" style={{ fontSize: "20px" }}>
+                        {/* <TbReportMedical /> */}
                         <BsPlusCircleFill />
                       </label>
                     </div>
@@ -168,20 +186,25 @@ const RightSide = (props) => {
                     <div className="file hover-attachment">
                       <div className="add-attachment">Show Stain Image</div>
                       <BsPlusCircle />
+                      {/* <MdOutlineImageSearch /> */}
                     </div>
                   </div>
                 )}
               </div>
               {/*  */}
-              {!show && !showCB && !showPng && !mlDataSendSuccess && (
-                <MessageSend
-                  ImageSend={ImageSend}
-                  emojiSend={emojiSend}
-                  sendMessage={sendMessage}
-                  inputHendle={inputHendle}
-                  newMessage={newMessage}
-                />
-              )}
+              {!show &&
+                !showCB &&
+                !showPng &&
+                !mlDataSendSuccess &&
+                !showLoading && (
+                  <MessageSend
+                    ImageSend={ImageSend}
+                    emojiSend={emojiSend}
+                    sendMessage={sendMessage}
+                    inputHendle={inputHendle}
+                    newMessage={newMessage}
+                  />
+                )}
             </div>
           </div>
           <div className="col-4">

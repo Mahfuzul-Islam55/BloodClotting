@@ -32,8 +32,12 @@ export default function Chatbot({ handleShowCB }) {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} style={{ width: "80%", height: "300px" }}>
+    <div className="chatbot">
+      <form
+        className="myForm"
+        onSubmit={handleSubmit}
+        style={{ width: "80%", height: "300px" }}
+      >
         <div
           onClick={() => handleShowCB()}
           style={{ cursor: "pointer", color: "black", marginLeft: "95%" }}

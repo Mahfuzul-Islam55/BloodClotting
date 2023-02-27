@@ -102,6 +102,18 @@ export const TiffMessageSend = (data) => async (dispatch) => {
     console.log(error);
   }
 };
+export const ShowLoading = () => (dispatch) => {
+  try {
+    dispatch({
+      type: "SHOW_LOADING",
+      payload: {
+        message: "Please wait some time. The image is processing.",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const ShowStainImage = () => async (dispatch) => {
   try {
     const response = await axios.post(`http://127.0.0.1:5002/stain`);
