@@ -1,24 +1,14 @@
-import React, { useState, useCallback } from "react";
-import {
-  BsCameraVideoFill,
-  BsPlusCircle,
-  BsPlusCircleFill,
-} from "react-icons/bs";
+import React, { useState } from "react";
+import { BsCameraVideoFill } from "react-icons/bs";
 import { FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
-import { IoCall } from "react-icons/io5";
 import FriendInfo from "../feature/friend-info";
-// import { TbReportMedical } from "react-icons/tb";
-// import { MdOutlineImageSearch } from "react-icons/*";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
 import Prescription from "../feature/prescription";
 import Chatbot from "../feature/chatbot";
 import { VideoCall } from "./VideoCall";
-import { useHistory } from "react-router-dom";
-import BloodTiff from "./BloodTiff";
 import BloodPng from "./BloodPng";
-import { RiGalleryLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import MlImageShow from "./assets/MlImageShow";
 import chatIcon from "./assets/chat.webp";
@@ -97,10 +87,6 @@ const RightSide = (props) => {
                   </div>
                 </div>
                 <div className="icons">
-                  {/* <div className="icon">
-                    <IoCall />
-                  </div> */}
-
                   <div className="icon" onClick={handlejoinRoom}>
                     <BsCameraVideoFill />
                   </div>
@@ -121,12 +107,7 @@ const RightSide = (props) => {
 
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
-              {/* {showTiff && (
-                <BloodTiff
-                  handleShowTiff={handleShowTiff}
-                  TiffSend={TiffSend}
-                />
-              )} */}
+
               {showPng && showStain && (
                 <BloodPng handleShowPng={handleShowPng} />
               )}
@@ -165,6 +146,7 @@ const RightSide = (props) => {
                       <img
                         src={chatIcon}
                         style={{ width: "18px", height: "18px" }}
+                        alt=""
                       />
                     </div>
                   </div>
@@ -186,6 +168,7 @@ const RightSide = (props) => {
                         <img
                           style={{ width: "20px", height: "20px" }}
                           src={report}
+                          alt=""
                         />
                       </label>
                     </div>
@@ -198,6 +181,7 @@ const RightSide = (props) => {
                       <img
                         style={{ width: "20px", height: "20px" }}
                         src={search_stain}
+                        alt=""
                       />
                     </div>
                   </div>

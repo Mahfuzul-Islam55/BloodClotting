@@ -6,10 +6,13 @@ const BloodPng = ({ handleShowPng }) => {
   const { StainImage, mlDataSendSuccess } = useSelector(
     (state) => state.messenger
   );
-  
+
   return (
     <div>
-      <div onClick={handleShowPng} style={{ cursor: "pointer",overflow:"hidden" }}>
+      <div
+        onClick={handleShowPng}
+        style={{ cursor: "pointer", overflow: "hidden" }}
+      >
         <AiFillCloseCircle />
       </div>
       <h3
@@ -34,7 +37,9 @@ const BloodPng = ({ handleShowPng }) => {
           marginRight: "auto",
           marginBottom: "20px",
         }}
+        alt=""
       />
+
       <img
         src={`data:image/png;base64,${StainImage.img_e}`}
         style={{
@@ -45,6 +50,7 @@ const BloodPng = ({ handleShowPng }) => {
           marginRight: "auto",
           marginBottom: "20px",
         }}
+        alt=""
       />
 
       <img
@@ -57,6 +63,7 @@ const BloodPng = ({ handleShowPng }) => {
           marginRight: "auto",
           marginBottom: "20px",
         }}
+        alt=""
       />
 
       <img
@@ -69,6 +76,7 @@ const BloodPng = ({ handleShowPng }) => {
           marginRight: "auto",
           marginBottom: "20px",
         }}
+        alt=""
       />
     </div>
   );

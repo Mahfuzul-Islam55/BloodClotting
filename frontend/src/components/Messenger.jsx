@@ -318,8 +318,6 @@ const Messenger = () => {
                   ) : (
                     <h3>{myInfo.userName}</h3>
                   )}
-
-                  {/* <h3>{myInfo.doctor==true} {myInfo.userName}</h3> */}
                 </div>
               </div>
               <div className="icons">
@@ -372,12 +370,7 @@ const Messenger = () => {
                 />
               </div>
             </div>
-            {/*<div className="active-friends">
-                            {
-                                activeUser && activeUser.length > 0 ? activeUser.map(u => <ActiveFriend setCurrentFriend={setCurrentFriend} user={u} />) : ''
-                            }
 
-                        </div>*/}
             <div className="friends">
               {friends && friends.length > 0
                 ? friends.map((fd, index) => (

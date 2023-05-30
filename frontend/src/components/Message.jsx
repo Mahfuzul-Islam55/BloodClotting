@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { MdDynamicForm } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { BsPlusCircle } from "react-icons/all";
 import moment from "moment";
 import { HiOutlineCheckCircle, RiCheckboxCircleFill } from "react-icons/all";
 
@@ -67,10 +65,7 @@ const Message = ({ message, currentfriend, scrollRef, typingMessage }) => {
                         <p className="message-text fd">
                           {m.message.text === "" ? (
                             <a href={`/image/${m.message.image}`} download>
-                            <img
-                              src={`./image/${m.message.image}`}
-                              alt="image"
-                            />
+                              <img src={`./image/${m.message.image}`} alt="" />
                             </a>
                           ) : (
                             m.message.text

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  AiFillGift,
-  BiMessageAltEdit,
-  BsPlusCircle,
-  RiGalleryLine,
-  IoSend,
-} from "react-icons/all";
+import { BiMessageAltEdit, RiGalleryLine, IoSend } from "react-icons/all";
 
 const MessageSend = ({
   inputHendle,
@@ -44,10 +38,7 @@ const MessageSend = ({
   return (
     <div className="message-send-section">
       <input type="checkbox" id="emoji" />
-      {/* <div className="file hover-attachment">
-        <div className="add-attachment">Add Attachment</div>
-        <BsPlusCircle />
-      </div> */}
+
       <div className="file hover-image">
         <div className="add-image">Add File</div>
         <input
@@ -64,10 +55,7 @@ const MessageSend = ({
       <div className="file">
         <BiMessageAltEdit />
       </div>
-      {/* <div className="file hover-gift">
-        <div className="add-gift">Add gift</div>
-        <AiFillGift />
-      </div> */}
+
       <div className="message-type">
         <input
           onChange={inputHendle}
