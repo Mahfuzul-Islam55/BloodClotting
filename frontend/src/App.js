@@ -1,11 +1,13 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
+//import Login from "./components/Login";
+//import Register from "./components/Register";
 import Messenger from "./components/Messenger";
 import ProtectRoute from "./components/ProtectRoute";
-import Prescription from "./components/Prescription";
+import Prescription from "./feature/prescription";
 import { VideoCall } from "./components/VideoCall";
+import Login from "./feature/auth/login";
+import Register from "./feature/auth/registration";
 function App() {
   return (
     <Router>
@@ -17,7 +19,7 @@ function App() {
           component={Prescription}
           exact
         ></Route>
-          <Route path="/room/:roomID" component ={VideoCall} exact/>
+        <Route path="/room/:roomID" component={VideoCall} exact />
         <ProtectRoute path="/" component={Messenger} exact />
       </Switch>
     </Router>

@@ -7,13 +7,13 @@ import {
 import { FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
 import { IoCall } from "react-icons/io5";
-import FriendInfo from "./FriendInfo";
+import FriendInfo from "../feature/friend-info";
 // import { TbReportMedical } from "react-icons/tb";
 // import { MdOutlineImageSearch } from "react-icons/*";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
-import Prescription from "./Prescription";
-import Chatbot from "./Chatbot";
+import Prescription from "../feature/prescription";
+import Chatbot from "../feature/chatbot";
 import { VideoCall } from "./VideoCall";
 import { useHistory } from "react-router-dom";
 import BloodTiff from "./BloodTiff";
@@ -24,8 +24,8 @@ import MlImageShow from "./assets/MlImageShow";
 import chatIcon from "./assets/chat.webp";
 import { ShowStainImage, ShowLoading } from "../store/actions/messengerAction";
 import Loading from "./assets/Loading";
-import report from './assets/report.png';
-import search_stain from './assets/search_stain.png'
+import report from "./assets/report.png";
+import search_stain from "./assets/search_stain.png";
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -65,9 +65,9 @@ const RightSide = (props) => {
     dispatch(ShowStainImage());
   };
 
-  const { mlData, mlDataSendSuccess, showLoading, loadingMessage,showStain } =
+  const { mlData, mlDataSendSuccess, showLoading, loadingMessage, showStain } =
     useSelector((state) => state.messenger);
-    const {myInfo}=useSelector((state)=>state.auth);
+  const { myInfo } = useSelector((state) => state.auth);
   console.log("Data from rightside: ", mlData);
   console.log("mlDataSendSuccess ", mlDataSendSuccess);
   return (
@@ -100,7 +100,7 @@ const RightSide = (props) => {
                   {/* <div className="icon">
                     <IoCall />
                   </div> */}
-                  
+
                   <div className="icon" onClick={handlejoinRoom}>
                     <BsCameraVideoFill />
                   </div>
@@ -118,7 +118,7 @@ const RightSide = (props) => {
               ) : (
                 ""
               )}
-              
+
               {show && <Prescription handleShow={handleShow} />}
               {showCB && <Chatbot handleShowCB={handleShowCB} />}
               {/* {showTiff && (
@@ -127,7 +127,9 @@ const RightSide = (props) => {
                   TiffSend={TiffSend}
                 />
               )} */}
-              {showPng && showStain && <BloodPng handleShowPng={handleShowPng} />}
+              {showPng && showStain && (
+                <BloodPng handleShowPng={handleShowPng} />
+              )}
 
               {!show &&
                 !showCB &&
@@ -148,7 +150,7 @@ const RightSide = (props) => {
                   marginRight: "10px",
                 }}
               >
-                {!show && myInfo.doctor=="true" && (
+                {!show && myInfo.doctor == "true" && (
                   <div onClick={handleShow} className="message-send-section">
                     <div className="file hover-attachment">
                       <div className="add-attachment">Add Prescription</div>
@@ -167,7 +169,7 @@ const RightSide = (props) => {
                     </div>
                   </div>
                 )}
-                {  myInfo.doctor=="true" && 
+                {myInfo.doctor == "true" && (
                   <div
                     onClick={handleShowTiff}
                     className="message-send-section"
@@ -181,17 +183,22 @@ const RightSide = (props) => {
                         className="form-control"
                       />
                       <label htmlFor="pic" style={{ fontSize: "20px" }}>
-                     
-                        <img style={{width:"20px",height:"20px"}} src={report}/>
+                        <img
+                          style={{ width: "20px", height: "20px" }}
+                          src={report}
+                        />
                       </label>
                     </div>
                   </div>
-                }
-                {!showPng &&  myInfo.doctor=="true" &&  (
+                )}
+                {!showPng && myInfo.doctor == "true" && (
                   <div onClick={handleShowPng} className="message-send-section">
                     <div className="file hover-attachment">
                       <div className="add-attachment">Show Stain Image</div>
-                      <img style={{width:"20px",height:"20px"}} src={search_stain}/>
+                      <img
+                        style={{ width: "20px", height: "20px" }}
+                        src={search_stain}
+                      />
                     </div>
                   </div>
                 )}

@@ -1,12 +1,13 @@
 @import "./sass/base/reset";
 @import "./sass/utils/utils";
 @import "./sass/layout/grid";
-@import "./sass/components/register";
+@import "./src/feature/auth/registration/register";
 @import "./sass/components/messenger";
-@import "./sass/components/activeFriend";
+@import "./src/feature/active-friend/activeFriend";
 @import "./sass/components/friends";
 @import "./sass/components/rightSide";
 @import "./sass/components/message";
 @import "./sass/components/messageSend";
-@import "./sass/components/friendInfo";
-@import "./sass/components/prescription";
+@import "./src/feature/friend-info/friendInfo";
+@import "./src/feature/prescription/prescription";
+@import "./src/feature/chatbot/chatbot";
