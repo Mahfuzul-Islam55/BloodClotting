@@ -9,7 +9,7 @@ import {
 } from "../../../store/types/authType";
 const Login = ({ history }) => {
   const alert = useAlert();
-  const { loading, successMessage, error, authenticate, myInfo } = useSelector(
+  const { successMessage, error, authenticate } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();

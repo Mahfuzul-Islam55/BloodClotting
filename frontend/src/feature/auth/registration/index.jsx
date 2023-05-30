@@ -9,7 +9,7 @@ import {
 } from "../../../store/types/authType";
 const Register = ({ history }) => {
   const alert = useAlert();
-  const { loading, successMessage, error, authenticate, myInfo } = useSelector(
+  const { successMessage, error, authenticate, myInfo } = useSelector(
     (state) => state.auth
   );
 
@@ -155,7 +155,7 @@ const Register = ({ history }) => {
             <div className="form-group">
               <div className="file-image">
                 <div className="image">
-                  {loadImage ? <img src={loadImage} /> : ""}
+                  {loadImage ? <img src={loadImage} alt="" /> : ""}
                 </div>
                 <div className="file">
                   <label htmlFor="image">Select Image</label>
