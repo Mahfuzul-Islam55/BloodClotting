@@ -24,8 +24,8 @@ import {
 
 import { userLogout } from "../../store/actions/authAction";
 import useSound from "use-sound";
-import notificationSound from "../../audio/notification.mp3";
-import sendingSound from "../../audio/sending.mp3";
+import notificationSound from "../../asset/audio/notification.mp3";
+import sendingSound from "../../asset/audio/sending.mp3";
 import Friends from "../friend";
 
 const Messenger = () => {

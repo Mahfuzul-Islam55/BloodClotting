@@ -7,10 +7,10 @@ import FriendInfo from "../friend-info";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
 import MlImageShow from "../../components/assets/MlImageShow";
-import chatIcon from "../../components/assets/chat.webp";
+import chatIcon from "../../asset/image/chat.webp";
 import Loading from "../../components/assets/Loading";
-import report from "../../components/assets/report.png";
-import search_stain from "../../components/assets/search_stain.png";
+import report from "../../asset/image/report.png";
+import search_stain from "../../asset/image/search_stain.png";
 import {
   ShowLoading,
   ShowStainImage,
