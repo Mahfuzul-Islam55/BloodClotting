@@ -5,7 +5,7 @@ import {
   FaEdit,
   IoLogOutOutline,
 } from "react-icons/all";
-import Friends from "../feature/friend";
+
 import RightSide from "./RightSide";
 import { io } from "socket.io-client";
 import toast, { Toaster } from "react-hot-toast";
@@ -20,11 +20,13 @@ import {
   getTheme,
   themeSet,
   TiffMessageSend,
-} from "../store/actions/messengerAction";
-import { userLogout } from "../store/actions/authAction";
+} from "../../store/actions/messengerAction";
+
+import { userLogout } from "../../store/actions/authAction";
 import useSound from "use-sound";
-import notificationSound from "../audio/notification.mp3";
-import sendingSound from "../audio/sending.mp3";
+import notificationSound from "../../audio/notification.mp3";
+import sendingSound from "../../audio/sending.mp3";
+import Friends from "../friend";
 
 const Messenger = () => {
   const [notificationSPlay] = useSound(notificationSound);

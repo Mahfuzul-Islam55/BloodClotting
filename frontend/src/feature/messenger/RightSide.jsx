@@ -2,20 +2,24 @@ import React, { useState } from "react";
 import { BsCameraVideoFill } from "react-icons/bs";
 import { FaPrescriptionBottleAlt } from "react-icons/fa";
 import { HiDotsCircleHorizontal } from "react-icons/hi";
-import FriendInfo from "../feature/friend-info";
+import { useDispatch, useSelector } from "react-redux";
+import FriendInfo from "../friend-info";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
-import Prescription from "../feature/prescription";
-import Chatbot from "../feature/chatbot";
-import VideoCall from "../feature/video-call";
-import BloodPng from "../feature/clotting/png-clotting";
-import { useDispatch, useSelector } from "react-redux";
-import MlImageShow from "./assets/MlImageShow";
-import chatIcon from "./assets/chat.webp";
-import { ShowStainImage, ShowLoading } from "../store/actions/messengerAction";
-import Loading from "./assets/Loading";
-import report from "./assets/report.png";
-import search_stain from "./assets/search_stain.png";
+import MlImageShow from "../../components/assets/MlImageShow";
+import chatIcon from "../../components/assets/chat.webp";
+import Loading from "../../components/assets/Loading";
+import report from "../../components/assets/report.png";
+import search_stain from "../../components/assets/search_stain.png";
+import {
+  ShowLoading,
+  ShowStainImage,
+} from "../../store/actions/messengerAction";
+import BloodPng from "../clotting/png-clotting";
+import VideoCall from "../video-call";
+import Chatbot from "../chatbot";
+import Prescription from "../prescription";
+
 const RightSide = (props) => {
   const {
     currentfriend,
@@ -98,6 +102,7 @@ const RightSide = (props) => {
                   </div>
                 </div>
               </div>
+
               {mlDataSendSuccess ? <MlImageShow mlData={mlData} /> : ""}
               {!mlDataSendSuccess && showLoading && !showCB ? (
                 <Loading loadingMessage={loadingMessage} />
