@@ -1,9 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-//import Login from "./components/Login";
-//import Register from "./components/Register";
 import Messenger from "./components/Messenger";
-import ProtectRoute from "./components/ProtectRoute";
+import ProtectRoute from "./route/ProtectRoute";
 import Prescription from "./feature/prescription";
 import { VideoCall } from "./components/VideoCall";
 import Login from "./feature/auth/login";
