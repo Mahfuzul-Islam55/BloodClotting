@@ -1,7 +1,7 @@
 import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { MlSectionClose } from "../../store/actions/messengerAction";
+import { MlSectionClose } from "../store/actions/messengerAction";
 function MlImageShow({ mlData }) {
   const multiplyCE = Math.floor(mlData.CE * 100);
   const multiplyLAA = Math.ceil(mlData.LAA * 100);
@@ -38,6 +38,7 @@ function MlImageShow({ mlData }) {
           marginRight: "auto",
           marginBottom: "20px",
         }}
+        alt=""
       />
       <h3
         style={{

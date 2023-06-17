@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import FriendInfo from "../friend-info";
 import Message from "./Message";
 import MessageSend from "./MessageSend";
-import MlImageShow from "../../components/assets/MlImageShow";
+import MlImageShow from "../../components/MlImageShow";
 import chatIcon from "../../asset/image/chat.webp";
-import Loading from "../../components/assets/Loading";
+import Loading from "../../components/Loading";
 import report from "../../asset/image/report.png";
 import search_stain from "../../asset/image/search_stain.png";
 import {

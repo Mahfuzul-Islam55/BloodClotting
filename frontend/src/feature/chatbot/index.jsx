@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import bot from "../../components/assets/bot.svg";
-import user from "../../components/assets/user.svg";
-import send from "../../components/assets/send.svg";
+import bot from "../../asset/image/bot.svg";
+import user from "../../asset/image/user.svg";
+import send from "../../asset/image/send.svg";
 import axios from "axios";
 
 export default function Chatbot({ handleShowCB }) {
