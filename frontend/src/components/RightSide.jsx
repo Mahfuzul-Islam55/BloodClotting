@@ -7,7 +7,7 @@ import Message from "./Message";
 import MessageSend from "./MessageSend";
 import Prescription from "../feature/prescription";
 import Chatbot from "../feature/chatbot";
-import { VideoCall } from "./VideoCall";
+import VideoCall from "../feature/video-call";
 import BloodPng from "../feature/clotting/png-clotting";
 import { useDispatch, useSelector } from "react-redux";
 import MlImageShow from "./assets/MlImageShow";

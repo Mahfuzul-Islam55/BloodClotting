@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Messenger from "./components/Messenger";
 import ProtectRoute from "./route/ProtectRoute";
 import Prescription from "./feature/prescription";
-import { VideoCall } from "./components/VideoCall";
+import VideoCall from "./feature/video-call";
 import Login from "./feature/auth/login";
 import Register from "./feature/auth/registration";
 function App() {

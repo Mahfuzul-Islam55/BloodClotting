@@ -5,7 +5,7 @@ import {
   FaEdit,
   IoLogOutOutline,
 } from "react-icons/all";
-import Friends from "./Friends";
+import Friends from "../feature/friend";
 import RightSide from "./RightSide";
 import { io } from "socket.io-client";
 import toast, { Toaster } from "react-hot-toast";
