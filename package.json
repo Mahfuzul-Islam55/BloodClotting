@@ -8,8 +8,8 @@
     "client": "npm start --prefix frontend",
     "socket": "nodemon socket/socket.js",
     "chat_server": "nodemon chat_server/chat_server.js",
-    "dev": "concurrently \" npm run client \" \" npm run server \" \" npm run socket\" "
- 
+    "dev": "concurrently \" npm run client \" \" npm run server \" \" npm run socket\" ",
+    "build": "npm build"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +26,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
     "nodemon": "^2.0.12",
-    "react-bootstrap": "^2.7.2",
+    "react-bootstrap": "^2.7.4",
+    "react-countup": "^6.4.2",
+    "react-visibility-sensor": "^5.1.1",
+    "recharts": "^2.7.1",
     "validator": "^13.6.0"
   }
 }
